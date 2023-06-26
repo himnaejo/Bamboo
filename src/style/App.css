@@ -1,0 +1,35 @@
+@import "reset.css";
+@import "color.css";
+/*
+---------------디스플레이 관련  
+display; default ?
+
+---------------리스트 스타일 관련
+list-style
+
+---------------위치, 좌표 관련
+position : default static
+top / right / bottom / left
+
+---------------크기 관련
+width / height : default auto
+max-width / max-height : default none
+
+---------------패딩 마진 관련
+padding / margin
+
+---------------보더 배경 관련
+border / background
+
+---------------폰트, 색상, 정렬 관련
+color / font / text-align
+
+---------------텍스트 관련
+text-decoration
+
+---------------
+white-space
+
+---------------
+content
+*/

@@ -1,0 +1,18 @@
+:root {
+  --color-white: rgb(255, 255, 255);
+  --color-gray0: rgb(230, 230, 230);
+  --color-gray1: rgb(200, 200, 200);
+  --color-gray2: rgb(180, 180, 180);
+  --color-gray3: rgb(160, 160, 160);
+  --color-gray4: rgb(140, 140, 140);
+  --color-gray5: rgb(120, 120, 120);
+  --color-gray6: rgb(100, 100, 100);
+  --color-gray7: rgb(80, 80, 80);
+  --color-gray8: rgb(60, 60, 60);
+  --color-gray9: rgb(40, 40, 40);
+  --color-black: rgb(0, 0, 0);
+  --color-main1: #e5d9b6;
+  --color-main2: #a4be7b;
+  --color-main3: #5f8d4e;
+  --color-main4: #285430;
+}
