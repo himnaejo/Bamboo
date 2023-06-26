@@ -1,7 +1,11 @@
+import Modal from "component/Modal/Modal";
+
 const Main = () => {
   return (
     <main>
-      <article></article>
+      <article>
+        <Modal />
+      </article>
     </main>
   );
 };
