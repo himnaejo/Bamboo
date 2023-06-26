@@ -1,14 +1,18 @@
 // import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
 const Header = () => {
-  const user = auth.currentUser;
+  const [login, setLogin] = useState(null);
+
   useEffect(() => {
-    console.log(user);
-  });
+    onAuthStateChanged(auth, user => {
+      console.log("user", user); // 사용자 인증 정보가 변경될 때마다 해당 이벤트를 받아 처리합니다.
+      setLogin(user);
+    });
+  }, []);
   const navigate = useNavigate();
 
   const logOut = async () => {
@@ -19,7 +23,7 @@ const Header = () => {
     <header>
       <Link to="/">로고를 넣어주세요</Link>
       <h1>Bamboo</h1>
-      {user === null ? (
+      {login === null ? (
         <button
           onClick={() => {
             navigate("/signin");
@@ -30,6 +34,7 @@ const Header = () => {
       ) : (
         <button onClick={logOut}>로그아웃</button>
       )}
+      <p>------------------------</p>
     </header>
   );
 };
