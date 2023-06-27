@@ -1,16 +1,15 @@
 import Aside from "component/Aside/Aside";
-import Footer from "component/Footer/Footer";
-import Header from "component/Header/Header";
 import Main from "component/Main/Main";
 
 const Home = () => {
   return (
     <div className="App">
-      <Header />
-      <Aside />
+      {/* 왼쪽 사이드 만들기 */}
+      <Aside position={"left"} />
+      {/* CRUD 구현 */}
       <Main />
+      {/* 오른쪽 사이드 만들기 */}
       <Aside />
-      <Footer />
     </div>
   );
 };

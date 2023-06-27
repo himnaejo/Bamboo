@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import Header from "component/Header/Header";
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -34,7 +33,6 @@ const Signup = () => {
 
   return (
     <>
-      <Header></Header>
       <h2>로그인 페이지</h2>
       <form onSubmit={e => e.preventDefault()}>
         <div>

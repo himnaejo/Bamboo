@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 
 const Modal = ({ db, bamboos, setBamboos }) => {
+  // 유저 로그인 안됬을 시 작성 로그인 모달로 이동
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [isOpen, SetIsOpen] = useState(false);
