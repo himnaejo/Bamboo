@@ -18,8 +18,6 @@ const Router = () => {
     <BrowserRouter>
       <Header />
       <Nav />
-      {/* <Nav position={"left"} />
-      <Nav position={"right"} /> */}
       <Routes>
         <Route path="/" element={<Home />} />
 

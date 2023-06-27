@@ -29,9 +29,5 @@ export const StAside = styled.aside`
 
   padding: 20px;
 
-  /* nav 바 2개 생길 경우
-  position: absolute;
-  ${props => props.f}: 0px; */
-
   background-color: var(--color-main1);
 `;

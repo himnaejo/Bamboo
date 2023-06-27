@@ -8,11 +8,9 @@ import { ReactComponent as DepressedIcon } from "../../assets/depressed-icon.svg
 
 import { StButton, StAside } from "./StNav";
 
-const Nav = ({ position }) => {
-  // switch (position) {
-  //   case "left":
+const Nav = () => {
   return (
-    <StAside f={position}>
+    <StAside>
       <Link to={"/"}>
         <StButton>
           <HomeIcon />
@@ -45,11 +43,6 @@ const Nav = ({ position }) => {
       </Link>
     </StAside>
   );
-  // case "right":
-  //   return <StAside f={position}>false</StAside>;
-  // default:
-  //   break;
-  // }
 };
 
 export default Nav;
