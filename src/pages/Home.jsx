@@ -1,5 +1,4 @@
 import Aside from "component/Aside/Aside";
-import Footer from "component/Footer/Footer";
 import Header from "component/Header/Header";
 import Main from "component/Main/Main";
 
@@ -10,7 +9,6 @@ const Home = () => {
       <Aside />
       <Main />
       <Aside />
-      <Footer />
     </div>
   );
 };

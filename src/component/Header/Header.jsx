@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { styled } from "styled-components";
 import { Button } from "component/Button/StButton";
 import bamboo_logo from "assets/bamboo_logo.png";
+import basic from "assets/basic.jpg";
 
 const Header = () => {
   const [user, setUser] = useState();
@@ -37,6 +38,9 @@ const Header = () => {
           로그아웃
         </Button>
       )}
+      <Link to={"profile/1"}>
+        <ProfileImg src={basic} alt="프로필이미지" />
+      </Link>
     </StHeader>
   );
 };
@@ -53,6 +57,13 @@ const Logo = styled.img`
   width: 100px;
   height: 100px;
   margin-left: 10px;
+`;
+
+const ProfileImg = styled.img`
+  width: 70px;
+  height: 70px;
+  margin-left: 10px;
+  clip-path: circle(50%);
 `;
 
 // const StHeaer = styled.header`
