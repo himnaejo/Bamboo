@@ -1,8 +1,9 @@
+// 로그인, 회원가입을 컴포넌트로 돌리고
+// 모달창으로 구현하기
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import Header from "component/Header/Header";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ const Signin = () => {
 
   return (
     <>
-      <Header></Header>
       <h2>로그인 페이지</h2>
       <form onSubmit={e => e.preventDefault()}>
         <div>

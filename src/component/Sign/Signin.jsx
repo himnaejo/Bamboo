@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import Header from "component/Header/Header";
 import { StLabel, StInput, StFrom } from "./StSign";
 import { Button } from "component/Button/StButton";
 import { Link } from "react-router-dom/dist";
@@ -43,7 +42,6 @@ const Signin = () => {
 
   return (
     <div className="App">
-      <Header />
       <StFrom>
         <StLabel htmlFor="email">이메일 </StLabel>
         <StInput {...inputCaption("email", "email", "required")}></StInput>

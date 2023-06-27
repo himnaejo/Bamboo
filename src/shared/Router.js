@@ -4,10 +4,12 @@ import Content from "pages/Content";
 import Signin from "component/Sign/Signin";
 import Signup from "component/Sign/Signup";
 import Profile from "pages/Profile";
+import Header from "component/Header/Header";
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="content" element={<Content />} />
