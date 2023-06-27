@@ -23,8 +23,9 @@ const Header = () => {
   return (
     <StHeader>
       <div>
-        <Logo src={bamboo_logo} alt="" />
-        <h1>&lt;&gt;Bamboo&lt;&#47;&gt;</h1>
+        <Link to={"/"}>
+          <Logo src={bamboo_logo} alt="" />
+        </Link>
       </div>
       <Link to={"signin"}>
         {user === null ? (
@@ -42,9 +43,9 @@ const Header = () => {
 export default Header;
 
 const Logo = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-left: 23px;
+  width: 100px;
+  height: 100px;
+  margin-left: 10px;
 `;
 
 const StHeader = styled.header`
@@ -53,12 +54,13 @@ const StHeader = styled.header`
   align-items: center;
   background-color: var(--color-main3);
   color: white;
-  padding: 20px;
+  padding: 10px;
 `;
 
 const Btn = styled.button`
   width: 50px;
   height: 30px;
+  margin-right: 10px;
   border-radius: 5px;
   background-color: var(--color-main1);
 `;
