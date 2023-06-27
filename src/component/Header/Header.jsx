@@ -1,49 +1,50 @@
-import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom/dist";
+
 import { auth } from "../../firebase";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
+import { styled } from "styled-components";
+
+import { Button } from "component/Button/StButton";
 
 const Header = () => {
-  const [login, setLogin] = useState(null);
+  const [user, setUser] = useState();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, user => {
-      console.log("user", user); // 사용자 인증 정보가 변경될 때마다 해당 이벤트를 받아 처리합니다.
-      setLogin(user);
-    });
-  }, []);
-  const navigate = useNavigate();
-
-  const logOut = async () => {
+  const logOut = async event => {
+    event.preventDefault();
     await signOut(auth);
   };
 
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      setUser(user);
+    });
+  }, []);
+
   return (
-    <StHaeder>
-      <Link to="/">로고를 넣어주세요</Link>
-      <h1>Bamboo</h1>
-      {login === null ? (
-        <button
-          onClick={() => {
-            navigate("/signin");
-          }}
-        >
-          로그인
-        </button>
+    <StHeather>
+      <h1 style={{ display: "none" }}>&lt;&gt;Bamboo&lt;&#47;&gt;</h1>
+      {/* 로고 위치 잡기 */}
+      <Link to="/">로고이미지</Link>
+      {/* 버튼 위치 잡기 */}
+      {user === null ? (
+        <Link to={"/signin"}>
+          <Button position={"header"}>로그인</Button>
+        </Link>
       ) : (
-        <button onClick={logOut}>로그아웃</button>
+        <Button position={"header"} onClick={logOut}>
+          로그아웃
+        </Button>
       )}
-    </StHaeder>
+    </StHeather>
   );
 };
-
-const StHaeder = styled.header`
-  background-color: gray;
-  display: flex;
-  justify-content: space-between;
+// 스타일 컴포넌트 따로 빼기
+const StHeather = styled.header`
   width: 100%;
-  height: 40px;
-`;
+  height: 150px;
 
+  background-color: var(--color-main3);
+`;
 export default Header;
