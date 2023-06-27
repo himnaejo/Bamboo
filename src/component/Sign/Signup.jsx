@@ -3,7 +3,6 @@ import { useState } from "react";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
-import Header from "component/Header/Header";
 import { StLabel, StInput, StFrom } from "./StSign";
 import { Button } from "component/Button/StButton";
 
@@ -52,7 +51,6 @@ const Signup = () => {
 
   return (
     <div className="App">
-      <Header />
       <StFrom>
         <StLabel htmlFor="email">이메일 {point}</StLabel>
         <StInput {...inputCaption("email", "email", "required")}></StInput>

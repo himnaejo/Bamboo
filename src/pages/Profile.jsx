@@ -1,9 +1,11 @@
 import { styled } from "styled-components";
 import basic from "assets/basic.jpg";
+import Form from "component/Form/Form";
+import List from "component/List/List";
 
 const Profile = () => {
   return (
-    <>
+    <ProfileLayout>
       <ProfileBox>
         <DefaultImg src={basic} alt="기본이미지" />
         <MyInfoBox>
@@ -19,18 +21,21 @@ const Profile = () => {
       </ProfileBox>
 
       <ListBox>
-        <div>
-          <span>어떤 생각을 하고 계신가요?</span>
-        </div>
+        <span>지금 무슨 생각을 하고 계신가요?</span>
+        <Form />
         <Contents>
-          <section>게시글들</section>
+          <List />
         </Contents>
       </ListBox>
-    </>
+    </ProfileLayout>
   );
 };
 
 export default Profile;
+
+const ProfileLayout = styled.div`
+  width: 840px;
+`;
 
 const ProfileBox = styled.div`
   display: flex;
@@ -40,8 +45,8 @@ const ProfileBox = styled.div`
 `;
 
 const DefaultImg = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   clip-path: circle(50%);
 `;
 

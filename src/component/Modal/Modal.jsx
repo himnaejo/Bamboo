@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 
 const Modal = ({ db, bamboos, setBamboos }) => {
+  // 유저 로그인 안됬을 시 작성 로그인 모달로 이동
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [isOpen, SetIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const Modal = ({ db, bamboos, setBamboos }) => {
   const addBamboo = async () => {
     const newBamboo = { title, contents };
     setBamboos(prev => {
-      return [...bamboos, newBamboo];
+      return [...prev, newBamboo];
     });
     setTitle("");
     setContents("");
@@ -72,6 +73,8 @@ const Modal = ({ db, bamboos, setBamboos }) => {
   );
 };
 
+export default Modal;
+
 const StModalBox = styled.div`
   position: fixed;
   top: 0;
@@ -91,5 +94,3 @@ const StModalContents = styled.div`
   height: 50%;
   border-radius: 12px;
 `;
-
-export default Modal;

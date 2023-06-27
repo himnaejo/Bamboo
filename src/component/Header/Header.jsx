@@ -65,12 +65,3 @@ const ProfileImg = styled.img`
   margin-left: 10px;
   clip-path: circle(50%);
 `;
-
-// const StHeaer = styled.header`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   background-color: var(--color-main3);
-//   color: white;
-//   padding: 10px;
-// `;
