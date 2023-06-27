@@ -1,10 +1,10 @@
-import { styled } from "styled-components";
-import "style/color.css";
-import bamboo_logo from "assets/bamboo_logo.png";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { auth } from "firebase.js";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom/dist";
+import { auth } from "../../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { styled } from "styled-components";
+import { Button } from "component/Button/StButton";
+import bamboo_logo from "assets/bamboo_logo.png";
 
 const Header = () => {
   const [user, setUser] = useState();
@@ -22,24 +22,31 @@ const Header = () => {
 
   return (
     <StHeader>
-      <div>
-        <Link to={"/"}>
-          <Logo src={bamboo_logo} alt="" />
-        </Link>
-      </div>
-      <Link to={"signin"}>
-        {user === null ? (
-          <Btn position={"header"}>로그인</Btn>
-        ) : (
-          <Btn position={"header"} onClick={logOut}>
-            로그아웃
-          </Btn>
-        )}
+      <h1 style={{ display: "none" }}>&lt;&gt;Bamboo&lt;&#47;&gt;</h1>
+      {/* 로고 위치 잡기 */}
+      <Link to="/">
+        <Logo src={bamboo_logo} alt="" />
       </Link>
+      {/* 버튼 위치 잡기 */}
+      {user === null ? (
+        <Link to={"/signin"}>
+          <Button position={"header"}>로그인</Button>
+        </Link>
+      ) : (
+        <Button position={"header"} onClick={logOut}>
+          로그아웃
+        </Button>
+      )}
     </StHeader>
   );
 };
+// 스타일 컴포넌트 따로 빼기
+const StHeader = styled.header`
+  width: 100%;
+  height: 150px;
 
+  background-color: var(--color-main3);
+`;
 export default Header;
 
 const Logo = styled.img`
@@ -48,19 +55,11 @@ const Logo = styled.img`
   margin-left: 10px;
 `;
 
-const StHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--color-main3);
-  color: white;
-  padding: 10px;
-`;
-
-const Btn = styled.button`
-  width: 50px;
-  height: 30px;
-  margin-right: 10px;
-  border-radius: 5px;
-  background-color: var(--color-main1);
-`;
+// const StHeaer = styled.header`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   background-color: var(--color-main3);
+//   color: white;
+//   padding: 10px;
+// `;
