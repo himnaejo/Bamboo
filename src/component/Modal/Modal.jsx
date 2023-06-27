@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import "../../style/App.css";
 import React, { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
 
-const Modal = () => {
+const Modal = ({ db, bamboos, setBamboos }) => {
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
   const [isOpen, SetIsOpen] = useState(false);
 
   const openModal = () => {
@@ -10,6 +13,21 @@ const Modal = () => {
   };
 
   const closeModal = () => {
+    SetIsOpen(false);
+  };
+
+  const addBamboo = async () => {
+    const newBamboo = { title, contents };
+    setBamboos(prev => {
+      return [...bamboos, newBamboo];
+    });
+    setTitle("");
+    setContents("");
+
+    // Firestore에서 'bamboos' 컬렉션에 대한 참조 생성하기
+    const collectionRef = collection(db, "bamboos");
+    // 'bamboos' 컬렉션에 newBamboo 문서를 추가합니다.
+    await addDoc(collectionRef, newBamboo);
     SetIsOpen(false);
   };
 
@@ -26,9 +44,13 @@ const Modal = () => {
         <StModalBox>
           <StModalContents>
             <p>제목</p>
-            <input></input>
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
             <p>내용</p>
-            <textarea></textarea>
+            <textarea
+              type="text"
+              value={contents}
+              onChange={e => setContents(e.target.value)}
+            ></textarea>
             <button
               onClick={() => {
                 closeModal();
@@ -38,7 +60,7 @@ const Modal = () => {
             </button>
             <button
               onClick={() => {
-                closeModal();
+                addBamboo();
               }}
             >
               확인

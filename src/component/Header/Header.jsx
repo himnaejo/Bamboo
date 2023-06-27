@@ -1,4 +1,4 @@
-// import styled from "styled-components";
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <StHaeder>
       <Link to="/">로고를 넣어주세요</Link>
       <h1>Bamboo</h1>
       {login === null ? (
@@ -34,9 +34,16 @@ const Header = () => {
       ) : (
         <button onClick={logOut}>로그아웃</button>
       )}
-      <p>------------------------</p>
-    </header>
+    </StHaeder>
   );
 };
+
+const StHaeder = styled.header`
+  background-color: gray;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+`;
 
 export default Header;
