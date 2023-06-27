@@ -6,7 +6,6 @@ import Main from "component/Main/Main";
 const Home = () => {
   return (
     <div className="App">
-      안녕하세요
       <Header />
       <Aside />
       <Main />
