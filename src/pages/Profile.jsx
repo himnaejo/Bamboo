@@ -20,13 +20,11 @@ const Profile = () => {
         </MyInfoBox>
       </ProfileBox>
 
-      <ListBox>
+      <FeedBox>
         <span>지금 무슨 생각을 하고 계신가요?</span>
         <Form />
-        <Contents>
-          <List />
-        </Contents>
-      </ListBox>
+        <List />
+      </FeedBox>
     </ProfileLayout>
   );
 };
@@ -69,10 +67,6 @@ const Btn = styled.button`
   margin-left: 10px;
 `;
 
-const ListBox = styled.div`
+const FeedBox = styled.div`
   padding: 40px;
-`;
-
-const Contents = styled.div`
-  margin-top: 20px;
 `;

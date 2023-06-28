@@ -1,10 +1,8 @@
 import { createStore, combineReducers } from "redux";
 import userInfo from "../modules/userInfo";
-import news from "../modules/news";
 
 const rootReducer = combineReducers({
-  userInfo,
-  news
+  userInfo
 });
 const store = createStore(rootReducer);
 
