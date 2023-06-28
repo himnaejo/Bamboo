@@ -9,6 +9,7 @@ const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
   const user = auth.currentUser;
 
   const [userId, setUserId] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
@@ -16,14 +17,15 @@ const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
     if (user === null) {
       alert("로그인이 필요합니다.");
       // issue. 로그인을 안했을 경우 게시글을 볼 수가 없습니다.
-      // navigator("/signin");
+      navigator("/signin");
     } else {
       setUserId(user.uid);
+      setUserEmail(user.email);
     }
   }, [navigator, user]);
 
   const addBamboo = async () => {
-    const newBamboo = { title, contents, uid: userId };
+    const newBamboo = { title, contents, uid: userId, userEmail };
     setBamboos(prev => {
       return [...bamboos, newBamboo];
     });

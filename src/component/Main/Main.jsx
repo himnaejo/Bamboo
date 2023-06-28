@@ -50,7 +50,9 @@ const Main = () => {
           <St.BambooCard key={index}>
             <St.SampleProfile></St.SampleProfile>
             <St.Title>{bamboo.title}</St.Title>
-            <St.Content>{bamboo.contents}</St.Content>
+            <p>{bamboo.contents}</p>
+            {/* <p>{bamboo.uid}</p> */}
+            <p>{bamboo.userEmail}</p>
 
             {userId === bamboo.uid && (
               <>
