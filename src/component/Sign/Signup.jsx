@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { auth } from "../../firebase";
+import { auth } from "modules/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { StLabel, StInput, StFrom } from "./StSign";
-import { Button } from "component/Button/StButton";
+import { Button } from "component/Button/Button.style";
 
 const Signup = () => {
   const [user, setUser] = useState({});

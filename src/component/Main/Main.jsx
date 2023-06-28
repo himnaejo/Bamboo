@@ -1,53 +1,69 @@
-import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "../../firebase";
-import Modal from "component/Modal/Modal";
+import { db, auth } from "modules/firebase";
+
+// import Modal from "component/Modal/Modal";
+import InputBamboo from "component/Form/InputBamboo";
+
+import * as St from "./Main.style";
 
 const Main = () => {
   const [bamboos, setBamboos] = useState([]);
+
+  // 유저 정보 리덕스로 전역 관리
+  const [userId, setUserId] = useState("");
+  const user = auth.currentUser;
+  useEffect(() => {
+    if (user === null) {
+      setUserId("");
+    } else {
+      setUserId(user.uid);
+    }
+  }, [user]);
+
   useEffect(() => {
     const fetchData = async () => {
-      // collection 이름이 bamboos인 collection의 모든 document를 가져옵니다.
+      const initialValue = [];
+
       const q = query(collection(db, "bamboos"));
+
       const querySnapshot = await getDocs(q);
 
-      const initialTodos = [];
-
-      // document의 id와 데이터를 initialTodos에 저장합니다.
-      // doc.id의 경우 따로 지정하지 않는 한 자동으로 생성되는 id입니다.
-      // doc.data()를 실행하면 해당 document의 데이터를 가져올 수 있습니다.
       querySnapshot.forEach(doc => {
-        console.log(`${doc.id}=>${doc.data()}`);
-        initialTodos.push({ id: doc.id, ...doc.data() });
+        initialValue.push({ id: doc.id, ...doc.data() });
       });
 
-      // firestore에서 가져온 데이터를 state에 전달
-      setBamboos(initialTodos);
+      setBamboos(initialValue);
     };
 
     fetchData();
   }, []);
 
   return (
-    <main>
-      <article>
-        <Modal db={db} bamboos={bamboos} setBamboos={setBamboos} />
-        {bamboos.map((bamboo, index) => {
-          return (
-            <StBambooCard key={index}>
-              <p>{bamboo.title}</p>
-              <p>{bamboo.contents}</p>
-            </StBambooCard>
-          );
-        })}
-      </article>
-    </main>
+    <St.Main>
+      {/* 모달 */}
+      {/* <Modal></Modal> */}
+      <InputBamboo auth={auth} db={db} bamboos={bamboos} setBamboos={setBamboos}></InputBamboo>
+      {bamboos.map((bamboo, index) => {
+        return (
+          <St.BambooCard key={index}>
+            <St.SampleProfile></St.SampleProfile>
+            <St.Title>{bamboo.title}</St.Title>
+            <St.Content>{bamboo.contents}</St.Content>
+
+            {userId === bamboo.uid && (
+              <>
+                <St.Button></St.Button>
+                {/* <button>수정</button> */}
+                {/* <button>삭제</button> */}
+              </>
+            )}
+          </St.BambooCard>
+        );
+      })}
+    </St.Main>
   );
 };
-
-const StBambooCard = styled.div`
-  margin: 50px;
-`;
 
 export default Main;

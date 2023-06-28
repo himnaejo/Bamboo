@@ -82,3 +82,19 @@ const people = {
   transition: 300ms;
 }
 ```
+
+### 라이브러리
+
+```bash
+yarn add react-router-dom
+
+yarn add react-redux
+yarn add redux
+
+yarn add styled-reset
+yarn add styled-comonents
+
+yarn add redux-devtools-extension
+
+yarn add firebase
+```
