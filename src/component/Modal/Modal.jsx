@@ -1,6 +1,7 @@
 import { Button } from "component/Button/Button.style";
 import { Inner, Outer } from "./Modal.style";
 import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { globalOpenModal } from "redux/modules/modalStatus";
 
 const Modal = ({ form, position, children, column }) => {

@@ -1,10 +1,10 @@
 import "../../style/App.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { deleteDoc, collection } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
+const UpdateBamboo = ({ auth, db, bamboos, setBamboos, bamboo }) => {
   const navigator = useNavigate();
   // 유저 정보 리덕스로 전역 관리
   const user = auth.currentUser;
@@ -24,38 +24,42 @@ const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
     });
   }, [auth]);
 
-  const addBamboo = async () => {
-    if (user === null) {
-      alert("로그인이 필요합니다.");
-      // issue. 로그인을 안했을 경우 게시글을 볼 수가 없습니다.
-      navigator("/signin");
-    } else {
-      const newBamboo = { title, contents, uid: userId, userEmail };
-      setBamboos(prev => {
-        return [...bamboos, newBamboo];
-      });
-      setTitle("");
-      setContents("");
+  //   const deleteBamboo = async event => {
+  //     if (user === null) {
+  //       alert("로그인이 필요합니다.");
+  //       // issue. 로그인을 안했을 경우 게시글을 볼 수가 없습니다.
+  //       navigator("/signin");
+  //     } else {
+  //       const bambooRef = doc(db, "Bamboos", bamboo.id);
+  //       await deleteDoc(bambooRef);
 
-      const collectionRef = collection(db, "bamboos");
-      await addDoc(collectionRef, newBamboo);
-    }
-  };
+  //       setTodos(prev => {
+  //         return prev.filter(element => element.id !== bamboo.id);
+  //       });
+  //     }
+  //   };
   return (
     <>
       <p>제목</p>
       <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
       <p>내용</p>
       <textarea type="text" value={contents} onChange={e => setContents(e.target.value)}></textarea>
-      <button
+      {/* <button
         onClick={() => {
           addBamboo();
         }}
       >
         확인
-      </button>
+      </button> */}
+      {/* <button
+        onClick={() => {
+          deleteBamboo();
+        }}
+      >
+        삭제
+      </button> */}
     </>
   );
 };
 
-export default InputBamboo;
+export default UpdateBamboo;

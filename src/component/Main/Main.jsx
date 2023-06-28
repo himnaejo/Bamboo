@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db, auth } from "modules/firebase";
 
-// import Modal from "component/Modal/Modal";
 import InputBamboo from "component/Form/InputBamboo";
 
 import * as St from "./Main.style";
@@ -52,7 +51,7 @@ const Main = () => {
             <St.Title>{bamboo.title}</St.Title>
             <p>{bamboo.contents}</p>
             {/* <p>{bamboo.uid}</p> */}
-            <p>{bamboo.userEmail}</p>
+            {/* <p>{bamboo.userEmail}</p> */}
 
             {userId === bamboo.uid && (
               <>
