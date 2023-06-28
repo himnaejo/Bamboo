@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export const StButton = styled.button`
+export const Button = styled.button`
   width: 240px;
   height: 120px;
 
@@ -23,11 +23,18 @@ export const StButton = styled.button`
   }
 `;
 
-export const StAside = styled.aside`
+export const Nav = styled.nav`
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
   width: 280px;
   height: 100vh;
 
-  padding: 20px;
+  padding: 150px 20px 20px 20px;
 
   background-color: var(--color-main1);
+
+  z-index: 2;
 `;

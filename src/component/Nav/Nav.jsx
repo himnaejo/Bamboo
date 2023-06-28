@@ -6,42 +6,42 @@ import { ReactComponent as BusinessIcon } from "../../assets/business-icon.svg";
 import { ReactComponent as LikeIcon } from "../../assets/like-icon.svg";
 import { ReactComponent as DepressedIcon } from "../../assets/depressed-icon.svg";
 
-import { StButton, StAside } from "./StNav";
+import * as St from "./Nav.style";
 
 const Nav = () => {
   return (
-    <StAside>
+    <St.Nav>
       <Link to={"/"}>
-        <StButton>
+        <St.Button>
           <HomeIcon />
           HOME
-        </StButton>
+        </St.Button>
       </Link>
       <Link to={"/search"}>
-        <StButton>
+        <St.Button>
           <SearchIcon />
           검색
-        </StButton>
+        </St.Button>
       </Link>
       <Link to={"recommend"}>
-        <StButton>
+        <St.Button>
           <LikeIcon />
           추천
-        </StButton>
+        </St.Button>
       </Link>
       <Link to={"/share"}>
-        <StButton>
+        <St.Button>
           <BusinessIcon />
           공유해요
-        </StButton>
+        </St.Button>
       </Link>
       <Link to={"/comm"}>
-        <StButton>
+        <St.Button>
           <DepressedIcon />
           억울해요
-        </StButton>
+        </St.Button>
       </Link>
-    </StAside>
+    </St.Nav>
   );
 };
 
