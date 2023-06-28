@@ -12,12 +12,14 @@ import Nav from "component/Nav/Nav";
 
 import Signin from "component/Sign/Signin";
 import Signup from "component/Sign/Signup";
+import Modal from "component/Modal/Modal";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
       <Nav />
+      <Modal />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="content/:id" element={<Content />} />

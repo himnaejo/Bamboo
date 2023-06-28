@@ -9,6 +9,7 @@ import { ReactComponent as DepressedIcon } from "../../assets/depressed-icon.svg
 import * as St from "./Nav.style";
 
 const Nav = () => {
+  console.log("네비 렌더링");
   return (
     <St.Nav>
       <Link to={"/"}>

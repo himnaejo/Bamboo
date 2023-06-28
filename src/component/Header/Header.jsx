@@ -4,11 +4,15 @@ import { Link } from "react-router-dom/dist";
 import { auth } from "modules/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
+import Modal from "component/Modal/Modal";
+import UserSignIn from "component/Modal/components/UserData/UserSignIn";
+
 import bamboo_logo from "assets/bamboo_logo.png";
 import * as St from "./Header.style";
 import { Button } from "component/Button/Button.style";
 
 const Header = () => {
+  console.log("헤더 렌더링");
   const [user, setUser] = useState();
 
   const logOut = async event => {
@@ -31,13 +35,13 @@ const Header = () => {
       </Link>
 
       {user === null ? (
-        /* <Modal form={<UserSignIn />} position={"header"} column={"9/10"}>로그인</Modal> */
         <Link to={"/signin"}>
           <Button position={"header"} column={"9/10"}>
             로그인
           </Button>
         </Link>
       ) : (
+        // <Modal form={<UserSignIn />} position={"header"} column={"9/10"}>로그인</Modal>
         <Button position={"header"} onClick={logOut}>
           로그아웃
         </Button>

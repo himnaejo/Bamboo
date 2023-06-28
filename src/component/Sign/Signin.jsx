@@ -9,6 +9,7 @@ import { Button } from "component/Button/Button.style";
 import { Link } from "react-router-dom/dist";
 
 const Signin = () => {
+  console.log("로그인 렌더링");
   const [user, setUser] = useState({});
   const navigator = useNavigate();
 
