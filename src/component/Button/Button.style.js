@@ -10,9 +10,10 @@ export const Button = styled.button`
   border-radius: ${Styled.BUTTON_BORDER_MAP[props.position]}px;
   `}
 
-  align-self: center;
+  grid-column: ${props => props.column};
+  grid-row: ${props => props.row};
 
-  margin: 10px;
+  align-self: center;
 
   font-size: 20px;
   font-weight: 600;

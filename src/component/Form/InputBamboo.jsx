@@ -5,6 +5,7 @@ import { addDoc, collection } from "firebase/firestore";
 
 const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
   const navigator = useNavigate();
+  // 유저 정보 리덕스로 전역 관리
   const user = auth.currentUser;
 
   const [userId, setUserId] = useState("");
@@ -14,7 +15,8 @@ const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
   useEffect(() => {
     if (user === null) {
       alert("로그인이 필요합니다.");
-      navigator("/signin");
+      // issue. 로그인을 안했을 경우 게시글을 볼 수가 없습니다.
+      // navigator("/signin");
     } else {
       setUserId(user.uid);
     }
@@ -28,9 +30,7 @@ const InputBamboo = ({ auth, db, bamboos, setBamboos }) => {
     setTitle("");
     setContents("");
 
-    // Firestore에서 'bamboos' 컬렉션에 대한 참조 생성하기
     const collectionRef = collection(db, "bamboos");
-    // 'bamboos' 컬렉션에 newBamboo 문서를 추가합니다.
     await addDoc(collectionRef, newBamboo);
   };
   return (

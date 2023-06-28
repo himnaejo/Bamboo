@@ -29,5 +29,5 @@ export const StFrom = styled.form`
   justify-content: center;
   align-self: center;
 
-  margin: 50px;
+  margin: 200px 50px 50px 50px;
 `;

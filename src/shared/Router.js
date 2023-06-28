@@ -20,16 +20,12 @@ const Router = () => {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-
-        <Route path="content" element={<Content />} />
         <Route path="content/:id" element={<Content />} />
         <Route path="profile/:id" element={<Profile />} />
-
-        <Route path="search" element={<Search />} />
-        <Route path="recommend" element={<Recommend />} />
-        <Route path="share" element={<Share />} />
-        <Route path="comm" element={<Community />} />
-
+        <Route path="search/:prams" element={<Search />} /> {/* 검색 */}
+        <Route path="recommend" element={<Recommend />} /> {/* 추천 */}
+        <Route path="share" element={<Share />} /> {/* 공유해요 */}
+        <Route path="comm" element={<Community />} /> {/* 억울해요 */}
         <Route path="signin" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
       </Routes>

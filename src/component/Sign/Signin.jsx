@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { auth } from "../../firebase";
+import { auth } from "modules/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { StLabel, StInput, StFrom } from "./StSign";
-import { Button } from "component/Button/StButton";
+import { Button } from "component/Button/Button.style";
 import { Link } from "react-router-dom/dist";
 
 const Signin = () => {
