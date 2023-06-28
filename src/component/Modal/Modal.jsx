@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import "../../style/App.css";
 import React, { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
 
-const Modal = ({ db, bamboos, setBamboos }) => {
-  // 유저 로그인 안됬을 시 작성 로그인 모달로 이동
-  const [title, setTitle] = useState("");
-  const [contents, setContents] = useState("");
+const Modal = props => {
   const [isOpen, SetIsOpen] = useState(false);
 
   const openModal = () => {
@@ -14,21 +10,6 @@ const Modal = ({ db, bamboos, setBamboos }) => {
   };
 
   const closeModal = () => {
-    SetIsOpen(false);
-  };
-
-  const addBamboo = async () => {
-    const newBamboo = { title, contents };
-    setBamboos(prev => {
-      return [...bamboos, newBamboo];
-    });
-    setTitle("");
-    setContents("");
-
-    // Firestore에서 'bamboos' 컬렉션에 대한 참조 생성하기
-    const collectionRef = collection(db, "bamboos");
-    // 'bamboos' 컬렉션에 newBamboo 문서를 추가합니다.
-    await addDoc(collectionRef, newBamboo);
     SetIsOpen(false);
   };
 
@@ -44,27 +25,13 @@ const Modal = ({ db, bamboos, setBamboos }) => {
       {isOpen && (
         <StModalBox>
           <StModalContents>
-            <p>제목</p>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
-            <p>내용</p>
-            <textarea
-              type="text"
-              value={contents}
-              onChange={e => setContents(e.target.value)}
-            ></textarea>
+            {props.children}
             <button
               onClick={() => {
                 closeModal();
               }}
             >
               닫기
-            </button>
-            <button
-              onClick={() => {
-                addBamboo();
-              }}
-            >
-              확인
             </button>
           </StModalContents>
         </StModalBox>
@@ -86,11 +53,11 @@ const StModalBox = styled.div`
 `;
 
 const StModalContents = styled.div`
-  background-color: var(--color-main3);
+  background-color: var(--color-main2);
   padding: 20px;
   width: 70%;
   height: 50%;
-  border-radius: 12px;
+  border-radius: 70px;
 `;
 
 export default Modal;

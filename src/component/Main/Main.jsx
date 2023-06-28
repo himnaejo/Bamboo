@@ -1,10 +1,22 @@
 import styled from "styled-components";
+import "../../style/App.css";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebase";
+import { auth } from "../../firebase";
 import Modal from "component/Modal/Modal";
+import InputBamboo from "component/Form/InputBamboo";
 
 const Main = () => {
+  const user = auth.currentUser;
+  const [userId, setUserId] = useState("");
+  useEffect(() => {
+    if (user === null) {
+      setUserId("");
+    } else {
+      setUserId(user.uid);
+    }
+  }, [user]);
   const [bamboos, setBamboos] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -29,24 +41,49 @@ const Main = () => {
   }, []);
 
   return (
-    <main>
+    <StMain>
+      <div>
+        <Modal>
+          <InputBamboo auth={auth} db={db} bamboos={bamboos} setBamboos={setBamboos}></InputBamboo>
+        </Modal>
+      </div>
       <article>
-        <Modal db={db} bamboos={bamboos} setBamboos={setBamboos} />
         {bamboos.map((bamboo, index) => {
           return (
             <StBambooCard key={index}>
-              <p>{bamboo.title}</p>
-              <p>{bamboo.contents}</p>
+              <div>
+                <p>{bamboo.title}</p>
+                <p>{bamboo.contents}</p>
+              </div>
+              {userId === bamboo.uid && (
+                <div>
+                  <button>수정</button>
+                  <button>삭제</button>
+                </div>
+              )}
+              {/* <div>
+                <button>수정</button>
+                <button>삭제</button>
+              </div> */}
             </StBambooCard>
           );
         })}
       </article>
-    </main>
+    </StMain>
   );
 };
 
+const StMain = styled.div`
+  padding: 20px;
+  width: auto;
+`;
+
 const StBambooCard = styled.div`
-  margin: 50px;
+  padding: 20px;
+  width: 680px;
+  height: 678px;
+  border-radius: 70px;
+  background-color: var(--color-main2);
 `;
 
 export default Main;
