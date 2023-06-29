@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { collection, getDocs, query } from "firebase/firestore";
 import { db, auth } from "modules/firebase";
@@ -8,18 +9,8 @@ import InputBamboo from "component/Form/InputBamboo";
 import * as St from "./Main.style";
 
 const Main = () => {
+  const navigate = useNavigate();
   const [bamboos, setBamboos] = useState([]);
-
-  // 유저 정보 리덕스로 전역 관리
-  const [userId, setUserId] = useState("");
-  const user = auth.currentUser;
-  useEffect(() => {
-    if (user === null) {
-      setUserId("");
-    } else {
-      setUserId(user.uid);
-    }
-  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,18 +40,18 @@ const Main = () => {
           <St.BambooCard key={index}>
             <St.SampleProfile></St.SampleProfile>
             <St.Title>{bamboo.title}</St.Title>
-            <p>{bamboo.contents}</p>
-            {/* <p>{bamboo.uid}</p> */}
+            <St.Content>{bamboo.contents}</St.Content>
             {/* <p>{bamboo.userEmail}</p> */}
-
-            {userId === bamboo.uid && (
+            <St.Button
+              onClick={() => {
+                navigate(`/content/${bamboo.id}`);
+              }}
+            ></St.Button>
+            {/* {userId === bamboo.uid && (
               <>
-                {/* 수정삭제 구현 중 */}
                 <St.Button></St.Button>
-                {/* <button>수정</button> */}
-                {/* <button>삭제</button> */}
               </>
-            )}
+            )} */}
           </St.BambooCard>
         );
       })}
