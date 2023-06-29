@@ -50,6 +50,7 @@ const Content = () => {
             <StSampleProfile></StSampleProfile>
             <StTitle>{bamboo[0].title}</StTitle>
             <StBody>{bamboo[0].contents}</StBody>
+            <p>{bamboo[0].userEmail}</p>
           </StBambooCard>
         </>
       )}

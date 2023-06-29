@@ -41,7 +41,7 @@ const Main = () => {
             <St.SampleProfile></St.SampleProfile>
             <St.Title>{bamboo.title}</St.Title>
             <St.Content>{bamboo.contents}</St.Content>
-            {/* <p>{bamboo.userEmail}</p> */}
+            <p>{bamboo.userEmail}</p>
             <St.Button
               onClick={() => {
                 navigate(`/content/${bamboo.id}`);

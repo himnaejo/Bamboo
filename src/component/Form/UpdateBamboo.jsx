@@ -1,13 +1,38 @@
-import "../../style/App.css";
 import React, { useState } from "react";
-import { deleteDoc, doc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+
+import "../../style/App.css";
 
 const UpdateBamboo = ({ auth, db, bamboos, setBamboos, bamboo }) => {
+  const navigator = useNavigate();
   const user = auth.currentUser;
 
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+
+  const updateBamboo = async event => {
+    if (user === null) {
+      alert("로그인이 필요합니다.");
+      navigator("/signin");
+    } else if (user.uid !== bamboo.uid) {
+      alert("게시물을 작성한 유저가 아닙니다.");
+    } else {
+      const bambooRef = doc(db, "bamboos", bamboo.id);
+      await updateDoc(bambooRef, { ...bamboo, title, contents });
+
+      setBamboos(prev => {
+        return prev.map(element => {
+          if (element.id === bamboo.id) {
+            return { ...element, ...bamboo, title, contents };
+          } else {
+            return element;
+          }
+        });
+      });
+    }
+  };
 
   const deleteBamboo = async event => {
     if (user === null) {
@@ -16,7 +41,7 @@ const UpdateBamboo = ({ auth, db, bamboos, setBamboos, bamboo }) => {
     } else if (user.uid !== bamboo.uid) {
       alert("게시물을 작성한 유저가 아닙니다.");
     } else {
-      const bambooRef = doc(db, "Bamboos", bamboo.id);
+      const bambooRef = doc(db, "bamboos", bamboo.id);
       await deleteDoc(bambooRef);
       setBamboos(prev => {
         return prev.filter(element => element.id !== bamboo.id);
@@ -32,7 +57,7 @@ const UpdateBamboo = ({ auth, db, bamboos, setBamboos, bamboo }) => {
       <textarea type="text" value={contents} onChange={e => setContents(e.target.value)}></textarea>
       <button
         onClick={() => {
-          deleteBamboo();
+          updateBamboo();
         }}
       >
         수정
