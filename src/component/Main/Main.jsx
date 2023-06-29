@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { collection, getDocs, query } from "firebase/firestore";
-import { db, auth } from "modules/firebase";
+import { auth, db } from "modules/firebase";
 
 import InputBamboo from "component/Form/InputBamboo";
 

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "modules/firebase";
+import { db, auth } from "modules/firebase";
+
+import UpdateBamboo from "component/Form/UpdateBamboo";
 
 import styled from "styled-components";
 
@@ -36,11 +38,20 @@ const Content = () => {
     <StMain>
       {/* useEffect에서 비동기 함수로 인해 임시로 조치 */}
       {bamboo[0] !== undefined && (
-        <StBambooCard>
-          <StSampleProfile></StSampleProfile>
-          <StTitle>{bamboo[0].title}</StTitle>
-          <StBody>{bamboo[0].contents}</StBody>
-        </StBambooCard>
+        <>
+          <UpdateBamboo
+            auth={auth}
+            db={db}
+            bamboos={bamboos}
+            setBamboos={setBamboos}
+            bamboo={bamboo[0]}
+          ></UpdateBamboo>
+          <StBambooCard>
+            <StSampleProfile></StSampleProfile>
+            <StTitle>{bamboo[0].title}</StTitle>
+            <StBody>{bamboo[0].contents}</StBody>
+          </StBambooCard>
+        </>
       )}
     </StMain>
   );
