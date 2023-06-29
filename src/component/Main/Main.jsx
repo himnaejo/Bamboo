@@ -55,6 +55,7 @@ const Main = () => {
 
             {userId === bamboo.uid && (
               <>
+                {/* 수정삭제 구현 중 */}
                 <St.Button></St.Button>
                 {/* <button>수정</button> */}
                 {/* <button>삭제</button> */}
