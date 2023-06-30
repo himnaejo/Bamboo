@@ -6,7 +6,7 @@ import basic from "assets/basic.jpg";
 import { db } from "modules/firebase";
 
 // @Todo 유저 프로필 사진 가져오기
-const Post = ({ title, content, contentId, uid, displayName, photoURL }) => {
+const Post = ({ title, content, contentId, uid, displayName, photoURL, setBamboos }) => {
   const [profileImg, setProfileImg] = useState();
 
   useEffect(() => {
@@ -47,12 +47,7 @@ const Post = ({ title, content, contentId, uid, displayName, photoURL }) => {
         <St.P fontSize={20}>{displayName}</St.P>
         <St.Button onClick={contentEditOpenModal}>{/* 모달 버튼 */}</St.Button>
         {contentEditOpen && (
-          <EditModal
-            SetIsOpen={setContentEditOpen}
-            bamboo={bamboo}
-            // contentsData={contentsData}
-            setContentsData={setContentsData}
-          />
+          <EditModal SetIsOpen={setContentEditOpen} bamboo={bamboo} setBamboos={setBamboos} />
         )}
       </St.Flex>
       <St.P fontSize={30}>{title}</St.P>

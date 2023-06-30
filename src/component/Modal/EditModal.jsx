@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { db } from "modules/firebase";
 
-// 수정 삭제 오류 수정 중
-const EditModal = ({ SetIsOpen, bamboo, setContentsData }) => {
+const EditModal = ({ SetIsOpen, bamboo, setBamboos }) => {
   const closeModal = () => SetIsOpen(false);
 
   const { uid } = useSelector(state => state.userInfo);
 
   const [content, setContent] = useState({});
-  const onChange = event => {
+
+  const onChangeHandler = event => {
     const { name, value } = event.target;
     setContent({ ...content, [name]: value });
   };
@@ -23,10 +23,9 @@ const EditModal = ({ SetIsOpen, bamboo, setContentsData }) => {
     } else if (uid !== bamboo.uid) {
       alert("게시물을 작성한 유저가 아닙니다.");
     } else {
-      const bambooRef = doc(db, "bamboos", bamboo.id);
+      const bambooRef = doc(db, "feeds", bamboo.id);
       await updateDoc(bambooRef, { ...bamboo, ...content });
-
-      setContentsData(prev => {
+      setBamboos(prev => {
         return prev.map(element => {
           if (element.id === bamboo.id) {
             return { ...element, ...bamboo, ...content };
@@ -36,27 +35,27 @@ const EditModal = ({ SetIsOpen, bamboo, setContentsData }) => {
         });
       });
     }
+    closeModal();
   };
 
-  const deleteBamboo = async event => {
-    // if (uid === null) {
-    //   alert("로그인이 필요합니다.");
-    // } else if (uid !== bamboo.uid) {
-    //   alert("게시물을 작성한 유저가 아닙니다.");
-    // } else {
-    const bambooRef = doc(db, "bamboos", bamboo.id);
-    await deleteDoc(bambooRef);
-    setContentsData(prev => prev.filter(element => element.id !== bamboo.id));
+  const deleteBamboo = async () => {
+    if (uid === null) {
+      alert("로그인이 필요합니다.");
+    } else if (uid !== bamboo.uid) {
+      alert("게시물을 작성한 유저가 아닙니다.");
+    } else {
+      const bambooRef = doc(db, "feeds", bamboo.id);
+      await deleteDoc(bambooRef);
+      setBamboos(prev => prev.filter(element => element.id !== bamboo.id));
+    }
+    closeModal();
   };
-  // };
 
-  const inputCaption = (type, name, required) => ({
-    type,
+  const inputCaption = name => ({
     name,
-    id: name,
     value: content[name],
-    onChange,
-    required
+    required: "required",
+    onChange: onChangeHandler
   });
 
   return (
@@ -68,10 +67,10 @@ const EditModal = ({ SetIsOpen, bamboo, setContentsData }) => {
           <St.Label htmlFor="content">내용</St.Label>
           <St.Input {...inputCaption("content")} height={250} as={"textarea"} />
           <St.Flex>
-            <Button position={"modal"} onClick={updateBamboo}>
+            <Button position={"modal"} type={"button"} onClick={updateBamboo}>
               수정
             </Button>
-            <Button position={"modal"} onClick={deleteBamboo} marginValue={150}>
+            <Button position={"modal"} type={"button"} onClick={deleteBamboo} marginValue={150}>
               삭제
             </Button>
             <Button position={"modal"} type={"button"} onClick={closeModal}>

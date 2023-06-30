@@ -24,6 +24,9 @@ const Main = () => {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    setBamboos(bamboos);
+  }, [bamboos]);
 
   return (
     <St.Main>
@@ -41,6 +44,7 @@ const Main = () => {
           uid={bamboo.uid}
           displayName={bamboo.displayName}
           photoURL={bamboo.photoURL}
+          setBamboos={setBamboos}
         />
       ))}
     </St.Main>

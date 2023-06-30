@@ -73,7 +73,9 @@ const Profile = () => {
         <Button position={"main"} onClick={PostOpenModal} hoverStyle={"shadow"}>
           지금 무슨 생각을 하고 계신가요?
         </Button>
-        {postIsOpen && <PostModal setIsOpen={setPostIsOpen} />}
+        {postIsOpen && (
+          <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={setPostIsOpen} />
+        )}
 
         {filterBamboos.map(bamboo => (
           <Post
@@ -84,6 +86,7 @@ const Profile = () => {
             uid={bamboo.uid}
             displayName={bamboo.displayName}
             photoURL={bamboo.photoURL}
+            setBamboos={setBamboos}
           />
         ))}
       </FeedBox>
