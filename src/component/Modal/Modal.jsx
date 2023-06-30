@@ -1,22 +1,14 @@
-import { Button } from "component/Button/Button.style";
 import { Inner, Outer } from "./Modal.style";
-import { useDispatch, useSelector } from "react-redux";
-import { useSelector } from "react-redux";
-import { globalOpenModal } from "redux/modules/modalStatus";
 
 const Modal = ({ form, position, children, column }) => {
-  const dispatch = useDispatch();
-  const { modalStatus } = useSelector(state => state.modalStatus);
-  const openModal = () => {
-    dispatch(globalOpenModal(true));
-  };
+  const openModal = () => {};
+  console.log("🚀 ~ file: Modal.jsx:14 ~ openModal ~ openModal:", openModal);
+
   return (
     <>
-      {modalStatus && (
-        <Outer>
-          <Inner>{form}</Inner>
-        </Outer>
-      )}
+      <Outer>
+        <Inner>{form}</Inner>
+      </Outer>
     </>
   );
 };

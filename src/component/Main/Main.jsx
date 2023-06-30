@@ -1,61 +1,48 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { collection, getDocs, query } from "firebase/firestore";
-import { auth, db } from "modules/firebase";
-
-import InputBamboo from "component/Form/InputBamboo";
-
 import * as St from "./Main.style";
+import { useEffect, useState } from "react";
+import { db } from "modules/firebase";
+import { collection, getDocs, query } from "firebase/firestore";
+import { Button } from "component/Button/Button.style";
+import PostModal from "component/Modal/PostModal";
+import Post from "component/Post/Post";
 
 const Main = () => {
-  const navigate = useNavigate();
-  const [bamboos, setBamboos] = useState([]);
+  const [isOpen, SetIsOpen] = useState(false);
+  const openModal = () => SetIsOpen(true);
 
+  const [bamboos, setBamboos] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const initialValue = [];
 
-      const q = query(collection(db, "bamboos"));
-
+      const q = query(collection(db, "feeds"));
       const querySnapshot = await getDocs(q);
-
       querySnapshot.forEach(doc => {
-        initialValue.push({ id: doc.id, ...doc.data() });
+        initialValue.push({ ...doc.data(), id: doc.id });
       });
-
       setBamboos(initialValue);
-      console.log("메인", initialValue);
     };
-
     fetchData();
   }, []);
 
   return (
     <St.Main>
-      {/* 모달 */}
-      {/* <Modal></Modal> */}
-      <InputBamboo auth={auth} db={db} bamboos={bamboos} setBamboos={setBamboos}></InputBamboo>
-      {bamboos.map((bamboo, index) => {
-        return (
-          <St.BambooCard key={index}>
-            <St.SampleProfile></St.SampleProfile>
-            <St.Title>{bamboo.title}</St.Title>
-            <St.Content>{bamboo.contents}</St.Content>
-            <p>{bamboo.userEmail}</p>
-            <St.Button
-              onClick={() => {
-                navigate(`/content/${bamboo.id}`);
-              }}
-            ></St.Button>
-            {/* {userId === bamboo.uid && (
-              <>
-                <St.Button></St.Button>
-              </>
-            )} */}
-          </St.BambooCard>
-        );
-      })}
+      <Button position={"main"} onClick={openModal} hoverStyle={"shadow"}>
+        지금 무슨 생각을 하고 계신가요?
+      </Button>
+      {isOpen && <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={SetIsOpen} />}
+
+      {bamboos.map(bamboo => (
+        <Post
+          key={bamboo.id}
+          title={bamboo.title}
+          content={bamboo.content}
+          contentId={bamboo.id}
+          uid={bamboo.uid}
+          displayName={bamboo.displayName}
+          photoURL={bamboo.photoURL}
+        />
+      ))}
     </St.Main>
   );
 };

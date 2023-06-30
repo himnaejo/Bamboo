@@ -1,31 +1,38 @@
-// 액션 상수
-const ADD_USER = "App/userInfo/ADD";
-const DELETE_USER = "App/userInfo/DELETE";
-const EDIT_USER = "App/userInfo/DONE";
+const CURRENT_USER = "App/userInfo/CURRENT";
+const LOGOUT_USER = "App/userInfo/LOGOUT";
+const UPDATE_USER = "App/userInfo/UPDATE";
 
-// 액션 함수
-export const addUser = payload => {
-  return { type: ADD_USER, payload };
-};
-export const deleteUser = payload => {
-  return { type: DELETE_USER, payload };
-};
-export const editUser = payload => {
-  return { type: EDIT_USER, payload };
+export const currentUser = payload => {
+  return { type: CURRENT_USER, payload };
 };
 
-// 초기 값
-const initialState = { userInfo: [] };
+export const logoutUser = payload => {
+  return { type: LOGOUT_USER, payload };
+};
 
-// 리덕스
+export const updateUser = payload => {
+  return { type: UPDATE_USER, payload };
+};
+
+const initialState = {
+  uid: null,
+  displayName: null,
+  photoURL: null
+};
+
 const userInfo = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_USER:
+    case CURRENT_USER:
+      console.log("리덕스 로그인 작동");
+      return action.payload;
+
+    case LOGOUT_USER:
+      return { ...state, uid: null, displayName: null, photoURL: null };
+
+    case UPDATE_USER:
+      console.log("리덕스 로그아웃 작동");
       return { ...state, ...action.payload };
-    case DELETE_USER:
-      return { ...state, ...action.payload };
-    case EDIT_USER:
-      return { ...state, ...action.payload };
+
     default:
       return state;
   }
