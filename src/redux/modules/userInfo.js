@@ -19,19 +19,13 @@ const initialState = { userInfo: [] };
 
 // 리덕스
 const userInfo = (state = initialState, action) => {
-  const actionAdd = {};
-
-  const actionDelete = {};
-
-  const actionEdit = {};
-
   switch (action.type) {
     case ADD_USER:
-      return { ...state, ...actionAdd };
+      return { ...state, ...action.payload };
     case DELETE_USER:
-      return { ...state, ...actionDelete };
+      return { ...state, ...action.payload };
     case EDIT_USER:
-      return { ...state, ...actionEdit };
+      return { ...state, ...action.payload };
     default:
       return state;
   }

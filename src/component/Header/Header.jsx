@@ -5,6 +5,7 @@ import { auth } from "modules/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 import bamboo_logo from "assets/bamboo_logo.png";
+import basic from "assets/basic.jpg";
 import * as St from "./Header.style";
 import { Button } from "component/Button/Button.style";
 
@@ -42,6 +43,9 @@ const Header = () => {
           로그아웃
         </Button>
       )}
+      <Link to={"profile/1"}>
+        <St.ProfileImg src={basic} alt="프로필이미지" />
+      </Link>
     </St.Header>
   );
 };

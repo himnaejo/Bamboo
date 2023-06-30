@@ -19,3 +19,10 @@ export const Logo = styled.img`
   width: 150px;
   height: 150px;
 `;
+
+export const ProfileImg = styled.img`
+  width: 70px;
+  height: 70px;
+  margin-left: 10px;
+  clip-path: circle(50%);
+`;

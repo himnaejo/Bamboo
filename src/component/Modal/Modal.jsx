@@ -14,9 +14,6 @@ const Modal = ({ form, position, children, column }) => {
 
   return (
     <>
-      <Button position={position} column={column} onClick={() => openModal()}>
-        {children}
-      </Button>
       {modalStatus && (
         <Outer>
           <Inner>{form}</Inner>
