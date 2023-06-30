@@ -1,18 +1,20 @@
 import * as St from "./Header.style";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom/dist";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom/dist";
 import { auth } from "modules/firebase";
 import { signOut } from "firebase/auth";
 import bamboo_logo from "assets/bamboo_logo.png";
+import basic from "assets/basic.jpg";
 import { Button } from "component/Button/Button.style";
 import SignInModal from "component/Modal/SignInModal";
 import SignUpModal from "component/Modal/SignUpModal";
 import UserDataEditModal from "component/Modal/UserDataEditModal";
+import { logoutUser } from "redux/modules/userInfo";
 
 // @Todo 모달 공통 컴포넌트로 만들기
 const Header = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { uid, photoURL } = useSelector(state => state.userInfo);
   const [profileImg, setProfileImg] = useState();
 
@@ -31,6 +33,7 @@ const Header = () => {
 
   const logOut = async () => {
     await signOut(auth);
+    dispatch(logoutUser());
   };
 
   return (
@@ -40,19 +43,11 @@ const Header = () => {
       <Link to="/" style={{ gridColumn: "2/3" }}>
         <St.Logo src={bamboo_logo} alt="Logo" />
       </Link>
-      {profileImg === null ? (
-        <h2 style={{ fontSize: "20px", alignSelf: "center" }}>이미지가 없습니다.</h2>
-      ) : (
-        <img
-          style={{ borderRadius: "100%", alignSelf: "center" }}
-          src={profileImg}
-          alt="Profile"
-        ></img>
-      )}
 
       <Button position={"header"} column={"5/6"} onClick={userEditOpenModal}>
         수정하기
       </Button>
+
       {uid === null ? (
         <Button position={"header"} column={"9/10"} onClick={signInOpenModal}>
           로그인
@@ -62,14 +57,19 @@ const Header = () => {
           로그아웃
         </Button>
       )}
+
       {uid === null ? (
         <Button position={"header"} column={"10/11"} onClick={signUpOpenModal}>
           회원가입
         </Button>
+      ) : profileImg === null ? (
+        <St.ProfileLink to={`profile/${uid}`}>
+          <St.ProfileImg src={basic} alt="프로필이미지" />
+        </St.ProfileLink>
       ) : (
-        <Button position={"header"} column={"10/11"} onClick={() => navigate(`/profile${uid}`)}>
-          마이페이지
-        </Button>
+        <St.ProfileLink to={`profile/${uid}`}>
+          <St.ProfileImg src={profileImg} alt="프로필이미지" />
+        </St.ProfileLink>
       )}
 
       {signInOpen && <SignInModal SetIsOpen={SetSignInOpen} />}

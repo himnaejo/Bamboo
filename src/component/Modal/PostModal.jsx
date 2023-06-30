@@ -3,15 +3,22 @@ import { useState } from "react";
 import { db } from "modules/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Button } from "component/Button/Button.style";
+import { useSelector } from "react-redux";
 
-const PostModal = ({ bamboos, setBamboos, SetIsOpen }) => {
-  const INITIAL = { title: "", content: "" };
-  const [content, setContent] = useState({});
+const PostModal = ({ bamboos, setBamboos, setIsOpen }) => {
+  //redux 유저 정보 불러오기
+  const { uid, displayName, photoURL } = useSelector(state => state.userInfo);
 
   const closeModal = () => {
-    SetIsOpen(false);
+    setIsOpen(false);
   };
 
+  const INITIAL = {
+    // postData: Date.now(),
+    title: "",
+    content: ""
+  };
+  const [content, setContent] = useState({});
   const onChangeHandler = event => {
     const { name, value } = event.target;
     setContent({ ...content, [name]: value });
@@ -20,8 +27,13 @@ const PostModal = ({ bamboos, setBamboos, SetIsOpen }) => {
   const onSubmitHandler = async event => {
     event.preventDefault();
 
-    const newBamboo = { ...content };
-
+    if (uid === null) {
+      alert("로그인이 필요합니다.");
+      // @Todo 로그인 모달 불러오기
+      // navigator("/signin");
+    } else {
+    }
+    const newBamboo = { ...content, uid, displayName, photoURL };
     setBamboos(() => [...bamboos, newBamboo]);
     setContent(INITIAL);
 

@@ -1,13 +1,16 @@
 import * as St from "./Modal.style";
 import { useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
+import { useDispatch } from "react-redux";
+import { updateUser } from "redux/modules/userInfo";
 // import usePrintError from "component/Sign/usePrintError";
 
 // 프로필 이미지 입력하는 곳 구현
 // 에러코드 너무 길어서 useHook으로 컴포넌트 분리
 const SignUpModal = ({ SetIsOpen }) => {
+  const dispatch = useDispatch();
   const closeModal = () => {
     SetIsOpen(false);
   };
@@ -45,12 +48,16 @@ const SignUpModal = ({ SetIsOpen }) => {
   };
   // const [printErrMsg, setPrintErrMsg] = usePrintError(error);
   // console.log("🚀 ~ file: SignUpModal.jsx:47 ~ SignUpModal ~ printErrMsg:", printErrMsg);
-
+  // @Todo 디스패치 리덕스로 정보 넘겨주기
   const update = () => {
     try {
       updateProfile(auth.currentUser, {
         displayName: user.displayName,
         photoURL: user.photoURL
+      });
+      onAuthStateChanged(auth, user => {
+        const { displayName, photoURL } = user;
+        dispatch(updateUser({ displayName, photoURL }));
       });
     } catch (error) {
       printError(error);

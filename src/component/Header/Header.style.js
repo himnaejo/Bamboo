@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 export const Header = styled.header`
@@ -18,4 +19,19 @@ export const Header = styled.header`
 export const Logo = styled.img`
   width: 150px;
   height: 150px;
+`;
+
+export const ProfileImg = styled.img`
+  width: 70px;
+  height: 70px;
+
+  margin-left: 10px;
+
+  border-radius: 100%;
+  /* clip-path: circle(50%); */
+`;
+
+export const ProfileLink = styled(Link)`
+  grid-column: 10/11;
+  align-self: center;
 `;

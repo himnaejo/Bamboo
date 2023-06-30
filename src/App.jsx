@@ -9,6 +9,13 @@ import "style/App.css";
 const App = () => {
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   firebase auth:import users.json
+  //   --hash-algo=scrypt
+  //   --rounds=8
+  //   --mem-cost=14
+  // }, []);
+
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {

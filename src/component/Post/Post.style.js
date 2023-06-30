@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 export const BambooCard = styled.div`
   display: grid;
@@ -17,7 +18,7 @@ export const BambooCard = styled.div`
   border-radius: 70px;
 `;
 
-export const DefaultPhoto = styled.p`
+export const DefaultPhoto = styled.img`
   width: 90px;
   height: 90px;
 
@@ -28,31 +29,48 @@ export const DefaultPhoto = styled.p`
   border-radius: 100%;
 `;
 
-export const ProfilePhoto = styled.p`
+export const ProfilePhoto = styled.img`
   width: 90px;
   height: 90px;
-
-  grid-column: 1/3;
-  grid-row: 1/3;
 
   background-color: #ffffff;
   border-radius: 100%;
 `;
 
-export const Title = styled.h3`
+export const TitleLink = styled(Link)`
   grid-column: 4/10;
   grid-row: 2/3;
 
+  color: var(--color-black);
   font-size: 48px;
   transform: translateY(-50%);
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
-export const Content = styled.p`
+export const ContentLink = styled(Link)`
   width: 100%;
   height: 100%;
 
   grid-column: 2/12;
   grid-row: 4/12;
 
-  font-size: 48px;
+  color: var(--color-black);
+
+  font-size: 30px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const ProfileLink = styled(Link)`
+  grid-column: 1/3;
+  grid-row: 1/3;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;

@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "component/Header/Header";
 import Nav from "component/Nav/Nav";
-import Home from "pages/Home";
+import Main from "component/Main/Main";
 import Content from "pages/Content";
 import Profile from "pages/Profile";
 import Search from "pages/Search";
@@ -15,9 +15,9 @@ const Router = () => {
       <Header />
       <Nav />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="content/:id" element={<Content />} />
-        <Route path="profile/:id" element={<Profile />} />
+        <Route path="/" element={<Main />} />
+        <Route path="content/:contentId" element={<Content />} />
+        <Route path="profile/:uid" element={<Profile />} />
         <Route path="search/:prams" element={<Search />} /> {/* 검색 */}
         <Route path="recommend" element={<Recommend />} /> {/* 추천 */}
         <Route path="share" element={<Share />} /> {/* 공유해요 */}

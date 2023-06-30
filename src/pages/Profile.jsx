@@ -1,14 +1,38 @@
 import { styled } from "styled-components";
-import basic from "assets/basic.jpg";
 
+import basic from "assets/basic.jpg";
+import Form from "component/Form/Form";
+import List from "component/List/List";
+import PostModal from "component/Modal/PostModal";
+import { useState } from "react";
+import { Button } from "component/Button/Button.style";
+// import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+
+// 유저정보를 적용...
 const Profile = () => {
+  // const param = useParams();
+  // const { uid, photoURL, displayName } = useSelector(state => state.userInfo);
+  const { photoURL, displayName } = useSelector(state => state.userInfo);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
   return (
-    <>
+    <ProfileLayout>
       <ProfileBox>
-        <DefaultImg src={basic} alt="기본이미지" />
+        {photoURL === null ? (
+          // 스타일 컴포넌트 이름 수정
+          <DefaultImg src={basic} alt="기본이미지" />
+        ) : (
+          <DefaultImg src={photoURL} alt="프로필이미지" />
+        )}
+
         <MyInfoBox>
           <UpperLine>
-            <p>닉네임</p>
+            <p>{displayName}</p>
             <div>
               <Btn>Follow</Btn>
               <Btn>•••</Btn>
@@ -18,19 +42,25 @@ const Profile = () => {
         </MyInfoBox>
       </ProfileBox>
 
-      <ListBox>
-        <div>
-          <span>어떤 생각을 하고 계신가요?</span>
-        </div>
-        <Contents>
-          <section>게시글들</section>
-        </Contents>
-      </ListBox>
-    </>
+      <FeedBox>
+        <Button position={"main"} onClick={openModal}>
+          지금 무슨 생각을 하고 계신가요?
+        </Button>
+        {isOpen && <PostModal setIsOpen={setIsOpen} />}
+
+        <Form />
+        <List />
+      </FeedBox>
+    </ProfileLayout>
   );
 };
 
 export default Profile;
+
+const ProfileLayout = styled.div`
+  width: 840px;
+  margin-top: 150px;
+`;
 
 const ProfileBox = styled.div`
   display: flex;
@@ -40,8 +70,8 @@ const ProfileBox = styled.div`
 `;
 
 const DefaultImg = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   clip-path: circle(50%);
 `;
 
@@ -64,10 +94,6 @@ const Btn = styled.button`
   margin-left: 10px;
 `;
 
-const ListBox = styled.div`
+const FeedBox = styled.div`
   padding: 40px;
-`;
-
-const Contents = styled.div`
-  margin-top: 20px;
 `;
