@@ -7,11 +7,9 @@ import { globalOpenModal } from "redux/modules/modalStatus";
 const Modal = ({ form, position, children, column }) => {
   const dispatch = useDispatch();
   const { modalStatus } = useSelector(state => state.modalStatus);
-
   const openModal = () => {
     dispatch(globalOpenModal(true));
   };
-
   return (
     <>
       {modalStatus && (
