@@ -35,6 +35,7 @@ const Main = () => {
       });
 
       setBamboos(initialValue);
+      console.log("메인", initialValue);
     };
 
     fetchData();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "modules/firebase";
 import List from "component/List/List";
 
 const Form = () => {
@@ -27,9 +27,9 @@ const Form = () => {
       const newNews = { ...news, id: docRef.id };
       setFeeds(prevFeeds => [...prevFeeds, newNews]);
       setNews(INIT_VALUE);
-      console.log("뉴스가 성공적으로 추가되었습니다!");
+      console.log("피드가 성공적으로 추가되었습니다!");
     } catch (error) {
-      console.error("뉴스 추가 중 오류가 발생했습니다: ", error);
+      console.error("피드 추가 중 오류가 발생했습니다: ", error);
     }
   };
 

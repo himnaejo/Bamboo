@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { collection, getDocs, query, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "modules/firebase";
 
 const List = ({ feeds, setFeeds }) => {
   // 피드 불러오기
@@ -40,6 +40,7 @@ const List = ({ feeds, setFeeds }) => {
         console.log("데이터가 성공적으로 삭제되었습니다!");
         const updatedFeeds = feeds.filter(item => item.id !== id);
         setFeeds(updatedFeeds);
+        console.log(updatedFeeds);
       } catch (error) {
         console.error("데이터 삭제 중 오류가 발생했습니다: ", error);
       }

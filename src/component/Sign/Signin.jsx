@@ -6,30 +6,29 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { StLabel, StInput, StFrom } from "./StSign";
 import { Button } from "component/Button/Button.style";
-import { Link } from "react-router-dom/dist";
 
 const Signin = () => {
   const [user, setUser] = useState({});
   const navigator = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지 상태 추가
 
   const onChange = event => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
-  console.log(user);
 
-  // 인풋값 지우기
   const signIn = async event => {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
       console.log("유저 로그인", userCredential);
+      navigator(-1); // 로그인 성공 시 페이지 이동
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, "오류코드", errorMessage);
+      setErrorMessage("일치하지 않는 로그인 정보입니다."); // 에러 메시지 설정
     }
-    navigator(-1);
   };
 
   const inputCaption = (type, name, required) => ({
@@ -47,10 +46,7 @@ const Signin = () => {
         <StInput {...inputCaption("email", "email", "required")}></StInput>
         <StLabel htmlFor="password">비밀번호 </StLabel>
         <StInput {...inputCaption("password", "password", "required")}></StInput>
-        {/* 비밀번호 찾기 만들기 */}
-        <Link to={"/"} style={{ alignSelf: "center", width: "200px", textAlign: "center" }}>
-          비밀번호를 잊으셨습니까?
-        </Link>
+        {errorMessage && <p>{errorMessage}</p>} {/* 에러 메시지 표시 */}
         <Button position={"sign"} onClick={signIn}>
           로그인
         </Button>

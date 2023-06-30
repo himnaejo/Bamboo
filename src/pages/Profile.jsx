@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import basic from "assets/basic.jpg";
 import Form from "component/Form/Form";
 import List from "component/List/List";
+import Modal from "component/Modal/Modal";
 
 const Profile = () => {
   return (
@@ -21,7 +22,8 @@ const Profile = () => {
       </ProfileBox>
 
       <FeedBox>
-        <span>지금 무슨 생각을 하고 계신가요?</span>
+        <OpenBtn>지금 무슨 생각을 하고 계신가요?</OpenBtn>
+        <Modal />
         <Form />
         <List />
       </FeedBox>
@@ -33,6 +35,7 @@ export default Profile;
 
 const ProfileLayout = styled.div`
   width: 840px;
+  margin-top: 150px;
 `;
 
 const ProfileBox = styled.div`
@@ -69,4 +72,16 @@ const Btn = styled.button`
 
 const FeedBox = styled.div`
   padding: 40px;
+`;
+
+const OpenBtn = styled.span`
+  display: flex;
+  width: 630px;
+  height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 70px;
+  background: #d9d9d9;
+  cursor: pointer;
 `;
