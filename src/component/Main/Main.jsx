@@ -24,9 +24,6 @@ const Main = () => {
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    setBamboos(bamboos);
-  }, [bamboos]);
 
   return (
     <St.Main>
@@ -36,16 +33,7 @@ const Main = () => {
       {isOpen && <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={SetIsOpen} />}
 
       {bamboos.map(bamboo => (
-        <Post
-          key={bamboo.id}
-          title={bamboo.title}
-          content={bamboo.content}
-          contentId={bamboo.id}
-          uid={bamboo.uid}
-          displayName={bamboo.displayName}
-          photoURL={bamboo.photoURL}
-          setBamboos={setBamboos}
-        />
+        <Post key={bamboo.id} photoURL={bamboo.photoURL} bamboo={bamboo} setBamboos={setBamboos} />
       ))}
     </St.Main>
   );

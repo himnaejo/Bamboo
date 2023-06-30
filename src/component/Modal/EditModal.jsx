@@ -23,6 +23,7 @@ const EditModal = ({ SetIsOpen, bamboo, setBamboos }) => {
     } else if (uid !== bamboo.uid) {
       alert("게시물을 작성한 유저가 아닙니다.");
     } else {
+      // 글 작성 직후 삭제수정 하면 오류발생(새로고침 해야 정상작동)
       const bambooRef = doc(db, "feeds", bamboo.id);
       await updateDoc(bambooRef, { ...bamboo, ...content });
       setBamboos(prev => {
@@ -37,13 +38,13 @@ const EditModal = ({ SetIsOpen, bamboo, setBamboos }) => {
     }
     closeModal();
   };
-
   const deleteBamboo = async () => {
     if (uid === null) {
       alert("로그인이 필요합니다.");
     } else if (uid !== bamboo.uid) {
       alert("게시물을 작성한 유저가 아닙니다.");
     } else {
+      // 글 작성 직후 삭제수정 하면 오류발생(새로고침 해야 정상작동)
       const bambooRef = doc(db, "feeds", bamboo.id);
       await deleteDoc(bambooRef);
       setBamboos(prev => prev.filter(element => element.id !== bamboo.id));
