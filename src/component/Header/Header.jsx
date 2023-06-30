@@ -1,7 +1,6 @@
 import * as St from "./Header.style";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom/dist";
 import { auth } from "modules/firebase";
 import { signOut } from "firebase/auth";
 import bamboo_logo from "assets/bamboo_logo.png";
@@ -36,9 +35,9 @@ const Header = () => {
     <St.Header>
       <h1 style={{ display: "none" }}>&lt;&gt;Bamboo&lt;&#47;&gt;</h1>
 
-      <Link to="/" style={{ gridColumn: "2/3" }}>
+      <St.HomeLink to="/" style={{ gridColumn: "2/3" }}>
         <St.Logo src={bamboo_logo} alt="Logo" />
-      </Link>
+      </St.HomeLink>
 
       {uid === null ? (
         <Button position={"header"} column={"9/10"} onClick={signInOpenModal}>

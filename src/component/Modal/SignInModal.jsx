@@ -10,6 +10,7 @@ import {
 import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
 
+// 깃허브 로그인 구현 안됨
 const SignInModal = ({ SetIsOpen }) => {
   const closeModal = () => {
     SetIsOpen(false);

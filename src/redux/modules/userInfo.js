@@ -20,7 +20,6 @@ const initialState = {
   photoURL: null
 };
 
-// 리덕스
 const userInfo = (state = initialState, action) => {
   switch (action.type) {
     case CURRENT_USER:

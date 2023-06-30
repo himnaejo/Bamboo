@@ -12,13 +12,19 @@ export const Header = styled.header`
   grid-template-rows: 150px;
 
   background-color: var(--color-main3);
+  /* background-color: var(--color-white); */
+  /* border: 2px solid; */
 
   z-index: 3;
 `;
 
+export const HomeLink = styled(Link)`
+  align-self: center;
+`;
+
 export const Logo = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 `;
 
 export const ProfileImg = styled.img`
@@ -28,7 +34,6 @@ export const ProfileImg = styled.img`
   margin-left: 10px;
 
   border-radius: 100%;
-  /* clip-path: circle(50%); */
 `;
 
 export const ProfileLink = styled(Link)`
