@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "component/Header/Header";
+import Nav from "component/Nav/Nav";
 import Home from "pages/Home";
 import Content from "pages/Content";
 import Profile from "pages/Profile";
@@ -7,19 +9,11 @@ import Recommend from "pages/Recommend";
 import Share from "pages/Share";
 import Community from "pages/Community";
 
-import Header from "component/Header/Header";
-import Nav from "component/Nav/Nav";
-
-import Signin from "component/Sign/Signin";
-import Signup from "component/Sign/Signup";
-import Modal from "component/Modal/Modal";
-
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
       <Nav />
-      <Modal />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="content/:id" element={<Content />} />
@@ -28,8 +22,6 @@ const Router = () => {
         <Route path="recommend" element={<Recommend />} /> {/* 추천 */}
         <Route path="share" element={<Share />} /> {/* 공유해요 */}
         <Route path="comm" element={<Community />} /> {/* 억울해요 */}
-        <Route path="signin" element={<Signin />} />
-        <Route path="signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );

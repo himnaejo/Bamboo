@@ -1,15 +1,12 @@
+import * as St from "./Nav.style";
 import { Link } from "react-router-dom";
-
 import { ReactComponent as HomeIcon } from "../../assets/home-icon.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-icon.svg";
 import { ReactComponent as BusinessIcon } from "../../assets/business-icon.svg";
 import { ReactComponent as LikeIcon } from "../../assets/like-icon.svg";
 import { ReactComponent as DepressedIcon } from "../../assets/depressed-icon.svg";
 
-import * as St from "./Nav.style";
-
 const Nav = () => {
-  console.log("네비 렌더링");
   return (
     <St.Nav>
       <Link to={"/"}>
