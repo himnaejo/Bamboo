@@ -5,15 +5,15 @@ import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
 import { useDispatch } from "react-redux";
 import { updateUser } from "redux/modules/userInfo";
-// import usePrintError from "component/Sign/usePrintError";
+import usePrintError from "component/AuthError/usePrintError";
 
 // 프로필 이미지 입력하는 곳 구현
 // 에러코드 너무 길어서 useHook으로 컴포넌트 분리
 const SignUpModal = ({ SetIsOpen }) => {
+  const [printErrMsg, setPrintErrMsg] = usePrintError();
+
   const dispatch = useDispatch();
-  const closeModal = () => {
-    SetIsOpen(false);
-  };
+  const closeModal = () => SetIsOpen(false);
 
   const [user, setUser] = useState({});
   const onChange = event => {
@@ -46,9 +46,6 @@ const SignUpModal = ({ SetIsOpen }) => {
         break;
     }
   };
-  // const [printErrMsg, setPrintErrMsg] = usePrintError(error);
-  // console.log("🚀 ~ file: SignUpModal.jsx:47 ~ SignUpModal ~ printErrMsg:", printErrMsg);
-  // @Todo 디스패치 리덕스로 정보 넘겨주기
   const update = () => {
     try {
       updateProfile(auth.currentUser, {
@@ -61,14 +58,14 @@ const SignUpModal = ({ SetIsOpen }) => {
       });
     } catch (error) {
       printError(error);
-      // const [printErrMsg, setPrintErrMsg] = usePrintError(error);
-      // setPrintErrMsg(error);
     }
   };
 
   const signUp = async event => {
     event.preventDefault();
     if (user.password !== user.passwordConfirm) return setErrMsg("비밀번호가 일치하지 않습니다.");
+    if (user.password !== user.passwordConfirm)
+      return setPrintErrMsg("비밀번호가 일치하지 않습니다.");
 
     try {
       await createUserWithEmailAndPassword(auth, user.email, user.password);
@@ -93,7 +90,7 @@ const SignUpModal = ({ SetIsOpen }) => {
   return (
     <St.Outer>
       <St.Inner>
-        <St.From onSubmit={signUp}>
+        <St.Form onSubmit={signUp}>
           <St.Label htmlFor="photoUrl">프로필 이미지</St.Label>
           <St.Input {...inputCaption("file", "photoUrl")}></St.Input>
           <St.Label htmlFor="email">이메일 {requiredPoint}</St.Label>
@@ -102,10 +99,8 @@ const SignUpModal = ({ SetIsOpen }) => {
           <St.Input {...inputCaption("password", "password", "required")}></St.Input>
           <St.Label htmlFor="passwordConfirm">비밀번호 확인 {requiredPoint}</St.Label>
           <St.Input {...inputCaption("password", "passwordConfirm", "required")}></St.Input>
-          <St.Label htmlFor="displayName">닉네임</St.Label>
+          <St.Label htmlFor="displayName">닉네임 {requiredPoint}</St.Label>
           <St.Input {...inputCaption("text", "displayName", "required")}></St.Input>
-          <St.Label htmlFor="info">자기소개</St.Label>
-          <St.Input {...inputCaption("text", "info")}></St.Input>
           {errMsg && <p>{errMsg}</p>}
           <St.Flex>
             <Button position={"modal"}>회원가입</Button>
@@ -113,7 +108,7 @@ const SignUpModal = ({ SetIsOpen }) => {
               닫기
             </Button>
           </St.Flex>
-        </St.From>
+        </St.Form>
       </St.Inner>
     </St.Outer>
   );

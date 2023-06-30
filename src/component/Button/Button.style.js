@@ -10,11 +10,19 @@ export const Button = styled.button`
   border-radius: ${Styled.BUTTON_BORDER_MAP[props.position]}px;
   `}
 
-  grid-column: ${props => props.column};
-  grid-row: ${props => props.row};
-
   align-self: center;
-
+  margin: ${Mg => `0px ${Mg.marginValue}px`};
   font-size: 20px;
   font-weight: 600;
+  background: ${props => props.background};
+  transition: 500ms;
+
+  ${props =>
+    props.hoverStyle === "shadow"
+      ? `
+      &:hover
+      {background-color: transparent;
+        box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
+        font-size: 1.3rem;`
+      : ""}
 `;

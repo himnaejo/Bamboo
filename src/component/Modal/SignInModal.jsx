@@ -77,7 +77,7 @@ const SignInModal = ({ SetIsOpen }) => {
   return (
     <St.Outer>
       <St.Inner>
-        <St.From onSubmit={signIn}>
+        <St.Form onSubmit={signIn}>
           <St.Label htmlFor="email">이메일 </St.Label>
           <St.Input {...inputCaption("email", "email", "required")}></St.Input>
           <St.Label htmlFor="password">비밀번호 </St.Label>
@@ -105,7 +105,7 @@ const SignInModal = ({ SetIsOpen }) => {
               닫기
             </Button>
           </St.Flex>
-        </St.From>
+        </St.Form>
       </St.Inner>
     </St.Outer>
   );

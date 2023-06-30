@@ -3,11 +3,11 @@ import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
+import { useSelector } from "react-redux";
 
-const UserDataEditModal = ({ SetIsOpen }) => {
-  const closeModal = () => {
-    SetIsOpen(false);
-  };
+// 이미지 수정 안됨!
+const UserDataEditModal = ({ setIsOpen }) => {
+  const closeModal = () => setIsOpen(false);
 
   const [user, setUser] = useState({});
   const onChange = event => {
@@ -60,24 +60,23 @@ const UserDataEditModal = ({ SetIsOpen }) => {
     onChange,
     required
   });
+
   const requiredPoint = <span style={{ color: "red" }}>*</span>;
 
   return (
     <St.Outer>
       <St.Inner>
-        <St.From>
+        <St.Form>
           <St.Label htmlFor="photoUrl">프로필 이미지</St.Label>
           <St.Input {...inputCaption("file", "photoUrl")}></St.Input>
           <St.Label htmlFor="email">이메일 {requiredPoint}</St.Label>
-          <St.Input {...inputCaption("email", "email", "required")} disabled></St.Input>
+          <St.Input value={auth.currentUser.email} disabled></St.Input>
           <St.Label htmlFor="password">비밀번호 {requiredPoint}</St.Label>
           <St.Input {...inputCaption("password", "password", "required")}></St.Input>
           <St.Label htmlFor="passwordConfirm">비밀번호 확인 {requiredPoint}</St.Label>
           <St.Input {...inputCaption("password", "passwordConfirm", "required")}></St.Input>
-          <St.Label htmlFor="displayName">닉네임</St.Label>
+          <St.Label htmlFor="displayName">닉네임 {requiredPoint}</St.Label>
           <St.Input {...inputCaption("text", "displayName", "required")}></St.Input>
-          <St.Label htmlFor="info">자기소개</St.Label>
-          <St.Input {...inputCaption("text", "info")}></St.Input>
           {errMsg && <p>{errMsg}</p>}
           <St.Flex>
             <Button position={"modal"} onClick={update}>
@@ -87,7 +86,7 @@ const UserDataEditModal = ({ SetIsOpen }) => {
               닫기
             </Button>
           </St.Flex>
-        </St.From>
+        </St.Form>
       </St.Inner>
     </St.Outer>
   );

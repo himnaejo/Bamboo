@@ -1,55 +1,91 @@
 import { styled } from "styled-components";
 
 import basic from "assets/basic.jpg";
-import Form from "component/Form/Form";
-import List from "component/List/List";
+import edit from "assets/edit.png";
 import PostModal from "component/Modal/PostModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "component/Button/Button.style";
-// import { useParams } from "react-router";
+import { collection, getDocs, query } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import Post from "component/Post/Post";
+import { auth, db } from "modules/firebase";
+import UserDataEditModal from "component/Modal/UserDataEditModal";
 
-// 유저정보를 적용...
+// 글 작성 안됨!
+// 로그아웃하면 에러메세지 출력!
 const Profile = () => {
   // const param = useParams();
   // const { uid, photoURL, displayName } = useSelector(state => state.userInfo);
   const { photoURL, displayName } = useSelector(state => state.userInfo);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const PostOpenModal = () => setPostIsOpen(true);
+  const [postIsOpen, setPostIsOpen] = useState(false);
+
+  const EditOpenModal = () => setEditIsOpen(true);
+  const [editIsOpen, setEditIsOpen] = useState(false);
+
+  const [bamboos, setBamboos] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const initialValue = [];
+
+      const q = query(collection(db, "feeds"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc => {
+        initialValue.push({ ...doc.data(), id: doc.id });
+      });
+      setBamboos(initialValue);
+    };
+    fetchData();
+  }, []);
+
+  const { uid } = useSelector(state => state.userInfo);
+
+  const filterBamboos = bamboos.filter(bamboo => bamboo.uid === uid);
 
   return (
     <ProfileLayout>
       <ProfileBox>
         {photoURL === null ? (
           // 스타일 컴포넌트 이름 수정
-          <DefaultImg src={basic} alt="기본이미지" />
+          <ProfileImg src={basic} alt="기본이미지" />
         ) : (
-          <DefaultImg src={photoURL} alt="프로필이미지" />
+          <ProfileImg src={photoURL} alt="프로필이미지" />
         )}
 
         <MyInfoBox>
           <UpperLine>
-            <p>{displayName}</p>
+            <UserNameBox>
+              <DisplayName>{displayName}</DisplayName>
+              <Email>{auth.currentUser.email}</Email>
+            </UserNameBox>
             <div>
-              <Btn>Follow</Btn>
-              <Btn>•••</Btn>
+              <Button onClick={EditOpenModal} background={"none"}>
+                <EditBtnImg src={edit} alt="수정" />
+              </Button>
+              {editIsOpen && <UserDataEditModal setIsOpen={setEditIsOpen} />}
             </div>
           </UpperLine>
-          <p>자기소개</p>
         </MyInfoBox>
       </ProfileBox>
 
       <FeedBox>
-        <Button position={"main"} onClick={openModal}>
+        <Button position={"main"} onClick={PostOpenModal} hoverStyle={"shadow"}>
           지금 무슨 생각을 하고 계신가요?
         </Button>
-        {isOpen && <PostModal setIsOpen={setIsOpen} />}
+        {postIsOpen && <PostModal setIsOpen={setPostIsOpen} />}
 
-        <Form />
-        <List />
+        {filterBamboos.map(bamboo => (
+          <Post
+            key={bamboo.id}
+            title={bamboo.title}
+            content={bamboo.content}
+            contentId={bamboo.id}
+            uid={bamboo.uid}
+            displayName={bamboo.displayName}
+            photoURL={bamboo.photoURL}
+          />
+        ))}
       </FeedBox>
     </ProfileLayout>
   );
@@ -69,10 +105,23 @@ const ProfileBox = styled.div`
   border-bottom: 1px solid lightgray;
 `;
 
-const DefaultImg = styled.img`
+const UserNameBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+`;
+
+const EditBtnImg = styled.img`
+  width: 40px;
+  height: 40px;
+  filter: contrast(0);
+`;
+
+const ProfileImg = styled.img`
   width: 200px;
   height: 200px;
-  clip-path: circle(50%);
+  clip-path: circle(50%); /* = border-radius:100%; */
 `;
 
 const MyInfoBox = styled.div`
@@ -86,14 +135,20 @@ const UpperLine = styled.div`
   margin-bottom: 20px;
 `;
 
-const Btn = styled.button`
-  width: 70px;
-  height: 30px;
-  border-radius: 5px;
-  background-color: #eeeeee;
-  margin-left: 10px;
+const DisplayName = styled.p`
+  font-size: 30px;
+  font-weight: 600;
+`;
+
+const Email = styled.p`
+  color: var(--color-gray4);
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const FeedBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 40px;
 `;

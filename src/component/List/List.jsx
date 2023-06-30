@@ -9,7 +9,7 @@ const List = ({ feeds, setFeeds }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const q = query(collection(db, "bamboos"));
+        const q = query(collection(db, "feeds"));
         const querySnapshot = await getDocs(q);
 
         const initialFeed = [];
@@ -54,7 +54,7 @@ const List = ({ feeds, setFeeds }) => {
           <StDiv key={item.id}>
             <StSpan>
               <StTitle>{item.title}</StTitle>
-              <StP>{item.contents}</StP>
+              <StP>{item.content}</StP>
             </StSpan>
 
             <StBtns>

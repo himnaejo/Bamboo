@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { collection, getDocs, query } from "firebase/firestore";
-import { db, auth } from "modules/firebase";
+import { db } from "modules/firebase";
 
-import UpdateBamboo from "component/Form/UpdateBamboo";
 import Post from "component/Post/Post";
 
 import styled from "styled-components";
+import { Button } from "component/Button/Button.style";
+import EditModal from "component/Modal/EditModal";
 
 const Content = () => {
   const param = useParams();
@@ -17,7 +18,7 @@ const Content = () => {
     const fetchData = async () => {
       const initialValue = [];
 
-      const q = query(collection(db, "bamboos"));
+      const q = query(collection(db, "feeds"));
 
       const querySnapshot = await getDocs(q);
 
@@ -35,24 +36,25 @@ const Content = () => {
     return element.id === param.contentId;
   });
 
+  const contentEditOpenModal = () => setContentEditOpen(true);
+  const [contentEditOpen, setContentEditOpen] = useState(false);
+
   return (
     <StMain>
-      {/* useEffect에서 비동기 함수로 인해 임시로 조치 */}
       {bamboo !== undefined && (
         <>
-          <UpdateBamboo
-            auth={auth}
-            db={db}
-            bamboos={bamboos}
-            setBamboos={setBamboos}
-            bamboo={bamboo}
-          ></UpdateBamboo>
-          {/* <StBambooCard>
-            <StSampleProfile></StSampleProfile>
-            <StTitle>{bamboo.title}</StTitle>
-            <StBody>{bamboo.content}</StBody>
-            <p>{bamboo.userEmail}</p>
-          </StBambooCard> */}
+          <Button position={"header"} onClick={contentEditOpenModal}>
+            • • •
+          </Button>
+          {contentEditOpen && (
+            <EditModal
+              SetIsOpen={setContentEditOpen}
+              bamboo={bamboo}
+              bamboos={bamboos}
+              setBamboos={setBamboos}
+            />
+          )}
+
           <Post
             key={bamboo.id}
             title={bamboo.title}
@@ -74,51 +76,5 @@ const StMain = styled.main`
 
   margin-top: 190px;
 `;
-
-// const StBambooCard = styled.div`
-//   display: grid;
-//   justify-content: center;
-//   align-items: center;
-//   grid-template-columns: repeat(12, 50px);
-//   grid-template-rows: repeat(12, 50px);
-
-//   width: 650px;
-//   height: 650px;
-
-//   margin: 50px;
-//   padding: 25px;
-
-//   background-color: var(--color-main2);
-//   border-radius: 70px;
-// `;
-
-// const StSampleProfile = styled.p`
-//   width: 90px;
-//   height: 90px;
-
-//   grid-column: 1/3;
-//   grid-row: 1/3;
-
-//   background-color: #ffffff;
-//   border-radius: 100%;
-// `;
-
-// const StTitle = styled.h3`
-//   grid-column: 4/10;
-//   grid-row: 2/3;
-
-//   font-size: 48px;
-//   transform: translateY(-50%);
-// `;
-
-// const StBody = styled.p`
-//   width: 100%;
-//   height: 100%;
-
-//   grid-column: 2/12;
-//   grid-row: 4/12;
-
-//   font-size: 48px;
-// `;
 
 export default Content;

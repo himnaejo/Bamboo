@@ -8,34 +8,27 @@ import Post from "component/Post/Post";
 
 const Main = () => {
   const [isOpen, SetIsOpen] = useState(false);
-  const openModal = () => {
-    SetIsOpen(true);
-  };
+  const openModal = () => SetIsOpen(true);
 
   const [bamboos, setBamboos] = useState([]);
-  console.log("🚀 ~ file: Main.jsx:16 ~ Main ~ bamboos:", bamboos);
   useEffect(() => {
     const fetchData = async () => {
       const initialValue = [];
 
-      const q = query(collection(db, "bamboos"));
-
+      const q = query(collection(db, "feeds"));
       const querySnapshot = await getDocs(q);
-
       querySnapshot.forEach(doc => {
-        initialValue.push({ id: doc.id, ...doc.data() });
+        initialValue.push({ ...doc.data(), id: doc.id });
       });
-
       setBamboos(initialValue);
     };
-
     fetchData();
   }, []);
 
   return (
     <St.Main>
-      <Button position={"main"} onClick={openModal}>
-        작성하기
+      <Button position={"main"} onClick={openModal} hoverStyle={"shadow"}>
+        지금 무슨 생각을 하고 계신가요?
       </Button>
       {isOpen && <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={SetIsOpen} />}
 

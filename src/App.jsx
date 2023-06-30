@@ -1,29 +1,20 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "modules/firebase";
+import "style/App.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { currentUser } from "redux/modules/userInfo";
 import Router from "shared/Router";
-import "style/App.css";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "modules/firebase";
+import { currentUser } from "redux/modules/userInfo";
 
 const App = () => {
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   firebase auth:import users.json
-  //   --hash-algo=scrypt
-  //   --rounds=8
-  //   --mem-cost=14
-  // }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {
         const { uid, displayName, photoURL } = user;
         dispatch(currentUser({ uid, displayName, photoURL }));
-        console.log("유저 정보 변경");
       } else {
-        console.log("🚀App.jsx:19 ~ user:", user);
       }
       return;
     });

@@ -34,7 +34,7 @@ export const Inner = styled.div`
   border-radius: 70px;
 `;
 
-export const From = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;

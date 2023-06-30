@@ -1,96 +1,68 @@
 import * as St from "./PostModal.style";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { db } from "modules/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { Button } from "component/Button/Button.style";
-import { useSelector } from "react-redux";
 
 const PostModal = ({ bamboos, setBamboos, setIsOpen }) => {
-  //redux 유저 정보 불러오기
+  // user redux
   const { uid, displayName, photoURL } = useSelector(state => state.userInfo);
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  // modal
+  const closeModal = () => setIsOpen(false);
 
-  const INITIAL = {
-    // postData: Date.now(),
-    title: "",
-    content: ""
-  };
+  // input change handler
+  const INITIAL = { title: "", content: "" };
+
   const [content, setContent] = useState({});
+
   const onChangeHandler = event => {
     const { name, value } = event.target;
     setContent({ ...content, [name]: value });
   };
 
+  // form submit handler
   const onSubmitHandler = async event => {
     event.preventDefault();
 
-    if (uid === null) {
-      alert("로그인이 필요합니다.");
-      // @Todo 로그인 모달 불러오기
-      // navigator("/signin");
-    } else {
-    }
+    if (uid === null) return alert("로그인이 필요합니다."); // user 유효성 검사
+
     const newBamboo = { ...content, uid, displayName, photoURL };
     setBamboos(() => [...bamboos, newBamboo]);
     setContent(INITIAL);
 
-    const collectionRef = collection(db, "bamboos");
+    const collectionRef = collection(db, "feeds");
     await addDoc(collectionRef, newBamboo);
     closeModal();
   };
 
-  const inputCaption = name =>
-    name === "title"
-      ? {
-          name,
-          column: "3/15",
-          row: "3/4",
-          value: content[name],
-          required: "required",
-          onChange: onChangeHandler
-        }
-      : {
-          as: "textarea",
-          name,
-          column: "3/15",
-          row: "4/11",
-          value: content[name],
-          required: "required",
-          onChange: onChangeHandler
-        };
+  const inputCaption = name => ({
+    name,
+    value: content[name],
+    required: "required",
+    onChange: onChangeHandler
+  });
 
   return (
-    <>
-      <St.Outer>
-        <St.Inner>
-          <St.Form onSubmit={onSubmitHandler}>
-            <St.Label htmlFor="title" column={"2/3"} row={"3/4"}>
-              제목
-            </St.Label>
-            <St.Input {...inputCaption("title")} />
-            <St.Label htmlFor="content" column={"2/3"} row={"4/5"}>
-              내용
-            </St.Label>
-            <St.Input {...inputCaption("content")} />
-            <Button position={"modal"} column={"3/4"} row={"12/13"}>
+    <St.Outer>
+      <St.Inner>
+        <St.Form onSubmit={onSubmitHandler}>
+          <St.Label htmlFor="title">제목</St.Label>
+          <St.Input {...inputCaption("title")} height={40} />
+          <St.Label htmlFor="content">내용</St.Label>
+          <St.Input {...inputCaption("content")} height={250} as={"textarea"} />
+          <St.Flex>
+            <Button position={"modal"} marginValue={100}>
               작성하기
             </Button>
-            <Button
-              position={"modal"}
-              column={"13/14"}
-              row={"12/13"}
-              type={"button"}
-              onClick={() => closeModal()}
-            >
+            <Button position={"modal"} type={"button"} onClick={closeModal} marginValue={100}>
               닫기
             </Button>
-          </St.Form>
-        </St.Inner>
-      </St.Outer>
-    </>
+          </St.Flex>
+        </St.Form>
+      </St.Inner>
+    </St.Outer>
   );
 };
 
