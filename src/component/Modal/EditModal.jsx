@@ -5,9 +5,7 @@ import { useSelector } from "react-redux";
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { db } from "modules/firebase";
 
-// 포탈 사용해서 최상단으로 올리기
-// 수정 기능 구현하기
-// 삭제 기능 구현하기
+// 수정 삭제 오류 수정 중
 const EditModal = ({ SetIsOpen, bamboo, setContentsData }) => {
   const closeModal = () => SetIsOpen(false);
 
