@@ -2,6 +2,7 @@ import * as St from "./Header.style";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "modules/firebase";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import bamboo_logo from "assets/bamboo_logo.png";
 import basic from "assets/basic.jpg";
@@ -20,6 +21,8 @@ const Header = () => {
     setProfileImg(photoURL);
   }, [photoURL]);
 
+  const navigate = useNavigate();
+
   const signInOpenModal = () => SetSignInOpen(true);
   const [signInOpen, SetSignInOpen] = useState(false);
 
@@ -27,6 +30,7 @@ const Header = () => {
   const [signUpOpen, setSignUpOpen] = useState(false);
 
   const logOut = async () => {
+    navigate("/"); // 로그아웃 시 home으로
     await signOut(auth);
     dispatch(logoutUser());
   };
