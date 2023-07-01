@@ -1,5 +1,7 @@
 import * as St from "./Post.style";
 import React, { useEffect, useState } from "react";
+import { db } from "modules/firebase";
+import { collection, getDocs, query } from "firebase/firestore";
 import EditModal from "component/Modal/EditModal";
 import basic from "assets/basic.jpg";
 
@@ -11,11 +13,25 @@ const Post = ({ key, photoURL, bamboo, setBamboos }) => {
     setProfileImg(photoURL);
   }, [photoURL]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const initialValue = [];
+
+      const q = query(collection(db, "feeds"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc => {
+        initialValue.push({ ...doc.data(), id: doc.id });
+      });
+      setBamboos(initialValue);
+    };
+    fetchData();
+  }, [setBamboos]);
+
   const contentEditOpenModal = () => setContentEditOpen(true);
   const [contentEditOpen, setContentEditOpen] = useState(false);
 
   return (
-    <St.BambooCard>
+    <St.BambooCard key={key}>
       <St.Flex>
         {profileImg === null ? (
           <St.ProfilePhoto src={basic} alt="프로필이미지" />
