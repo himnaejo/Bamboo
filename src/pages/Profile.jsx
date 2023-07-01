@@ -11,7 +11,6 @@ import Post from "component/Post/Post";
 import { auth, db } from "modules/firebase";
 import UserDataEditModal from "component/Modal/UserDataEditModal";
 
-// 로그아웃하면 에러메세지 출력!
 const Profile = () => {
   // const param = useParams();
   // const { uid, photoURL, displayName } = useSelector(state => state.userInfo);
@@ -24,6 +23,7 @@ const Profile = () => {
   const [editIsOpen, setEditIsOpen] = useState(false);
 
   const [bamboos, setBamboos] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const initialValue = [];
