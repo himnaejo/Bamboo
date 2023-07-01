@@ -33,15 +33,7 @@ const Main = () => {
       {isOpen && <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={SetIsOpen} />}
 
       {bamboos.map(bamboo => (
-        <Post
-          key={bamboo.id}
-          title={bamboo.title}
-          content={bamboo.content}
-          contentId={bamboo.id}
-          uid={bamboo.uid}
-          displayName={bamboo.displayName}
-          photoURL={bamboo.photoURL}
-        />
+        <Post key={bamboo.id} photoURL={bamboo.photoURL} bamboo={bamboo} setBamboos={setBamboos} />
       ))}
     </St.Main>
   );

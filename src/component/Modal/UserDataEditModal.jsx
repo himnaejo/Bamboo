@@ -3,7 +3,7 @@ import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 // 이미지 수정 안됨!
 const UserDataEditModal = ({ setIsOpen }) => {

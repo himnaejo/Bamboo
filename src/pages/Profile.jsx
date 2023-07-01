@@ -11,7 +11,6 @@ import Post from "component/Post/Post";
 import { auth, db } from "modules/firebase";
 import UserDataEditModal from "component/Modal/UserDataEditModal";
 
-// 글 작성 안됨!
 // 로그아웃하면 에러메세지 출력!
 const Profile = () => {
   // const param = useParams();
@@ -73,17 +72,16 @@ const Profile = () => {
         <Button position={"main"} onClick={PostOpenModal} hoverStyle={"shadow"}>
           지금 무슨 생각을 하고 계신가요?
         </Button>
-        {postIsOpen && <PostModal setIsOpen={setPostIsOpen} />}
+        {postIsOpen && (
+          <PostModal bamboos={bamboos} setBamboos={setBamboos} setIsOpen={setPostIsOpen} />
+        )}
 
         {filterBamboos.map(bamboo => (
           <Post
             key={bamboo.id}
-            title={bamboo.title}
-            content={bamboo.content}
-            contentId={bamboo.id}
-            uid={bamboo.uid}
-            displayName={bamboo.displayName}
             photoURL={bamboo.photoURL}
+            bamboo={bamboo}
+            setBamboos={setBamboos}
           />
         ))}
       </FeedBox>
