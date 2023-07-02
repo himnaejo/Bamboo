@@ -7,38 +7,26 @@ import { ReactComponent as LikeIcon } from "../../assets/like-icon.svg";
 import { ReactComponent as DepressedIcon } from "../../assets/depressed-icon.svg";
 
 const Nav = () => {
+  const links = [
+    { title: "HOME", link: "/", icon: <HomeIcon /> },
+    { title: "검색", link: "/search", icon: <SearchIcon /> },
+    { title: "추천", link: "/recommend", icon: <LikeIcon /> },
+    { title: "공유해요", link: "/share", icon: <BusinessIcon /> },
+    { title: "억울해요", link: "/community", icon: <DepressedIcon /> }
+  ];
+
   return (
     <St.Nav>
-      <Link to={"/"}>
-        <St.Button>
-          <HomeIcon />
-          HOME
-        </St.Button>
-      </Link>
-      <Link to={"/search"}>
-        <St.Button>
-          <SearchIcon />
-          검색
-        </St.Button>
-      </Link>
-      <Link to={"recommend"}>
-        <St.Button>
-          <LikeIcon />
-          추천
-        </St.Button>
-      </Link>
-      <Link to={"/share"}>
-        <St.Button>
-          <BusinessIcon />
-          공유해요
-        </St.Button>
-      </Link>
-      <Link to={"/comm"}>
-        <St.Button>
-          <DepressedIcon />
-          억울해요
-        </St.Button>
-      </Link>
+      {links.map(item => {
+        return (
+          <Link to={item.link}>
+            <St.Button>
+              {item.icon}
+              {item.title}
+            </St.Button>
+          </Link>
+        );
+      })}
     </St.Nav>
   );
 };

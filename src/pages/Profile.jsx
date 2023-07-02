@@ -1,20 +1,18 @@
-import { styled } from "styled-components";
-
-import basic from "assets/basic.jpg";
-import edit from "assets/edit.png";
-import PostModal from "component/Modal/PostModal";
-import { useEffect, useState } from "react";
 import { Button } from "component/Button/Button.style";
-import { collection, getDocs, query } from "firebase/firestore";
-import { useSelector } from "react-redux";
-import Post from "component/Post/Post";
-import { auth, db } from "modules/firebase";
+import PostModal from "component/Modal/PostModal";
 import UserDataEditModal from "component/Modal/UserDataEditModal";
+import Post from "component/Post/Post";
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "modules/firebase";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { styled } from "styled-components";
+import basic from "assets/basic.jpg";
+import edit from "assets/basic.jpg";
 
 const Profile = () => {
-  // const param = useParams();
-  // const { uid, photoURL, displayName } = useSelector(state => state.userInfo);
-  const { photoURL, displayName } = useSelector(state => state.userInfo);
+  const { photoURL, displayName, email } = useSelector(state => state.userInfo);
 
   const PostOpenModal = () => setPostIsOpen(true);
   const [postIsOpen, setPostIsOpen] = useState(false);
@@ -30,9 +28,7 @@ const Profile = () => {
 
       const q = query(collection(db, "feeds"));
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(doc => {
-        initialValue.push({ ...doc.data(), id: doc.id });
-      });
+      querySnapshot.forEach(doc => initialValue.push({ ...doc.data(), id: doc.id }));
       setBamboos(initialValue);
     };
     fetchData();
@@ -41,7 +37,6 @@ const Profile = () => {
   const { uid } = useSelector(state => state.userInfo);
 
   const filterBamboos = bamboos.filter(bamboo => bamboo.uid === uid);
-
   return (
     <ProfileLayout>
       <ProfileBox>
@@ -56,7 +51,7 @@ const Profile = () => {
           <UpperLine>
             <UserNameBox>
               <DisplayName>{displayName}</DisplayName>
-              <Email>{auth.currentUser.email}</Email>
+              <Email>{email}</Email>
             </UserNameBox>
             <div>
               <Button onClick={EditOpenModal} background={"none"}>
@@ -92,7 +87,11 @@ const Profile = () => {
 export default Profile;
 
 const ProfileLayout = styled.div`
-  width: 840px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   margin-top: 150px;
 `;
 
@@ -108,6 +107,7 @@ const UserNameBox = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+  margin-left: 50px;
 `;
 
 const EditBtnImg = styled.img`
@@ -119,7 +119,7 @@ const EditBtnImg = styled.img`
 const ProfileImg = styled.img`
   width: 200px;
   height: 200px;
-  clip-path: circle(50%); /* = border-radius:100%; */
+  clip-path: circle(50%);
 `;
 
 const MyInfoBox = styled.div`
@@ -139,7 +139,7 @@ const DisplayName = styled.p`
 `;
 
 const Email = styled.p`
-  color: var(--color-gray4);
+  color: rgb(140, 140, 140);
   font-size: 20px;
   font-weight: 600;
 `;

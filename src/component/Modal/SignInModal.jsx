@@ -1,6 +1,5 @@
 import * as St from "./Modal.style";
 import { useState } from "react";
-import { Link } from "react-router-dom/dist";
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -9,41 +8,29 @@ import {
 } from "firebase/auth";
 import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
+import usePrintError from "component/Hook/usePrintError";
 
 // 깃허브 로그인 구현 안됨
 const SignInModal = ({ SetIsOpen }) => {
-  const closeModal = () => {
-    SetIsOpen(false);
-  };
+  const closeModal = () => SetIsOpen(false);
 
-  // 인풋창 렌더링
+  const [errorMsg, setErrorMsg] = usePrintError();
+
   const [user, setUser] = useState({});
   const onChange = event => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
 
-  //에러메세지 출력
-  const [errMsg, setErrMsg] = useState();
-  const errorMsg = error => {
-    switch (error.code) {
-      case "auth/wrong-password":
-        return setErrMsg("비밀번호가 틀렸습니다.");
-
-      default:
-        break;
-    }
-  };
-
-  // 인풋값 지우기
   const signIn = async event => {
     event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, user.email, user.password);
       closeModal();
     } catch (error) {
-      errorMsg(error);
+      setErrorMsg(error);
     }
+    setUser({ email: "", password: "" });
   };
 
   const googleSignIn = async () => {
@@ -52,7 +39,7 @@ const SignInModal = ({ SetIsOpen }) => {
       await signInWithPopup(auth, providerGoogle);
       closeModal();
     } catch (error) {
-      errorMsg(error);
+      setErrorMsg(error);
     }
   };
 
@@ -62,7 +49,7 @@ const SignInModal = ({ SetIsOpen }) => {
       await signInWithPopup(auth, providerGithub);
       closeModal();
     } catch (error) {
-      errorMsg(error);
+      setErrorMsg(error);
     }
   };
 
@@ -80,18 +67,15 @@ const SignInModal = ({ SetIsOpen }) => {
       <St.Inner>
         <St.Form onSubmit={signIn}>
           <St.Label htmlFor="email">이메일 </St.Label>
-          <St.Input {...inputCaption("email", "email", "required")}></St.Input>
+          <St.Input {...inputCaption("email", "email")}></St.Input>
           <St.Label htmlFor="password">비밀번호 </St.Label>
-          <St.Input {...inputCaption("password", "password", "required")}></St.Input>
-          {errMsg && <p>{errMsg}</p>}
+          <St.Input {...inputCaption("password", "password")}></St.Input>
+          {errorMsg && <St.ErrorMsg>{errorMsg}</St.ErrorMsg>}
 
           {/* 비밀번호 찾기 만들기 */}
-          <Link to={"/"} style={{ alignSelf: "center", width: "200px", textAlign: "center" }}>
-            비밀번호를 잊으셨습니까?
-          </Link>
+          <St.FindPwLink to={"/"}>비밀번호를 잊으셨습니까?</St.FindPwLink>
           <St.Flex>
             <Button position={"modal"}>로그인</Button>
-            {/* 버튼 > 구글이미지로 대체 */}
             <Button position={"modal"} onClick={googleSignIn}>
               google
               <br />

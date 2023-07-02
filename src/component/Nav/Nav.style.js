@@ -19,7 +19,7 @@ export const Button = styled.button`
   transition: 200ms;
 
   &:hover {
-    background-color: var(--color-white);
+    background-color: rgb(255, 255, 255);
   }
 `;
 
@@ -34,7 +34,6 @@ export const Nav = styled.nav`
 
   padding: 150px 20px 20px 20px;
 
-  background-color: var(--color-main1);
-
+  background-color: #e5d9b6;
   z-index: 2;
 `;

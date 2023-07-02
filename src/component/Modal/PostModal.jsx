@@ -1,4 +1,4 @@
-import * as St from "./PostModal.style";
+import * as St from "./Modal.style";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { db } from "modules/firebase";
@@ -53,10 +53,10 @@ const PostModal = ({ bamboos, setBamboos, setIsOpen }) => {
           <St.Label htmlFor="content">내용</St.Label>
           <St.Input {...inputCaption("content")} height={250} as={"textarea"} />
           <St.Flex>
-            <Button position={"modal"} marginValue={100}>
+            <Button position={"modal"} sideMargin={100}>
               작성하기
             </Button>
-            <Button position={"modal"} type={"button"} onClick={closeModal} marginValue={100}>
+            <Button position={"modal"} type={"button"} onClick={closeModal} sideMargin={100}>
               닫기
             </Button>
           </St.Flex>

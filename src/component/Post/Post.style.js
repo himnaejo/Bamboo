@@ -27,10 +27,10 @@ export const BambooCard = styled.div`
   margin: 25px;
   padding: 25px;
 
-  background-color: var(--color-main2);
+  background-color: #a4be7b;
   border-radius: 70px;
 
-  color: var(--color-black);
+  color: rgb(0, 0, 0);
 
   box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
   transition: transform 100ms ease-in;

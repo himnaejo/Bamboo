@@ -5,8 +5,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 import EditModal from "component/Modal/EditModal";
 import basic from "assets/basic.jpg";
 
-// @Todo 유저 프로필 사진 가져오기
-const Post = ({ key, photoURL, bamboo, setBamboos }) => {
+const Post = ({ photoURL, bamboo, setBamboos }) => {
   const [profileImg, setProfileImg] = useState();
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const Post = ({ key, photoURL, bamboo, setBamboos }) => {
   const [contentEditOpen, setContentEditOpen] = useState(false);
 
   return (
-    <St.BambooCard key={key}>
+    <St.BambooCard>
       <St.Flex>
         {profileImg === null ? (
           <St.ProfilePhoto src={basic} alt="프로필이미지" />

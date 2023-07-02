@@ -1,4 +1,4 @@
-import * as St from "./PostModal.style";
+import * as St from "./Modal.style";
 import { useState } from "react";
 import { Button } from "component/Button/Button.style";
 import { useSelector } from "react-redux";
@@ -69,7 +69,7 @@ const EditModal = ({ SetIsOpen, bamboo, setBamboos }) => {
             <Button position={"modal"} type={"button"} onClick={updateBamboo}>
               수정
             </Button>
-            <Button position={"modal"} type={"button"} onClick={deleteBamboo} marginValue={150}>
+            <Button position={"modal"} type={"button"} onClick={deleteBamboo} sideMargin={150}>
               삭제
             </Button>
             <Button position={"modal"} type={"button"} onClick={closeModal}>

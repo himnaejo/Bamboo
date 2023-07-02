@@ -17,7 +17,8 @@ export const updateUser = payload => {
 const initialState = {
   uid: null,
   displayName: null,
-  photoURL: null
+  photoURL: null,
+  email: null
 };
 
 const userInfo = (state = initialState, action) => {
@@ -31,7 +32,8 @@ const userInfo = (state = initialState, action) => {
 
     case UPDATE_USER:
       console.log("리덕스 로그아웃 작동");
-      return { ...state, ...action.payload };
+      console.log(action.payload);
+      return { ...state, photoURL: action.payload };
 
     default:
       return state;

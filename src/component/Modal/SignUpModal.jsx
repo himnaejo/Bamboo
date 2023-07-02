@@ -1,16 +1,17 @@
 import * as St from "./Modal.style";
 import { useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from "firebase/auth";
-import { auth } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
-import { useDispatch } from "react-redux";
-import { updateUser } from "redux/modules/userInfo";
+import usePrintError from "component/Hook/usePrintError";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { auth, storage } from "modules/firebase";
+import { useNavigate } from "react-router-dom";
 
-// 프로필 이미지 입력하는 곳 구현
-// 에러코드 너무 길어서 useHook으로 컴포넌트 분리
 const SignUpModal = ({ SetIsOpen }) => {
-  const dispatch = useDispatch();
+  const navigator = useNavigate();
   const closeModal = () => SetIsOpen(false);
+
+  const [errorMsg, setErrorMsg] = usePrintError();
 
   const [user, setUser] = useState({});
   const onChange = event => {
@@ -18,67 +19,46 @@ const SignUpModal = ({ SetIsOpen }) => {
     setUser({ ...user, [name]: value });
   };
 
-  const [errMsg, setErrMsg] = useState();
-  const printError = error => {
-    switch (error.code) {
-      case "auth/user-not-found" || "auth/wrong-password":
-        return setErrMsg("이메일 혹은 비밀번호가 일치하지 않습니다.");
-      case "auth/email-already-in-use":
-        return setErrMsg("이미 사용하는 이메일입니다.");
-      case "auth/weak-password":
-        return setErrMsg("비밀번호를 6자 이상 입력해주세요");
-      case "auth/missing-password":
-        return setErrMsg("비밀번호가 틀립니다.");
-      case "auth/invalid-email":
-        return setErrMsg("유효하지 않은 이메일 입니다.");
-      case "auth/admin-restricted-operation":
-        return setErrMsg("필수입력 사항을 작성해주세요.");
-      case "auth/internal-error":
-        return setErrMsg("잘못된 요청입니다.");
-      case "auth/network-request-failed":
-        return setErrMsg("네트워크 연결에 실패 하였습니다.");
-      default:
-        console.log("New Error code:", error.code);
-        setErrMsg("새로운 오류");
-        break;
-    }
+  const [imgFile, setImgFile] = useState();
+  const onChangeAddFile = event => {
+    setImgFile(event.target.files[0]);
   };
-  const update = () => {
+
+  const update = async event => {
+    event.preventDefault();
     try {
+      const imageRef = ref(storage, `profileImg/${auth.currentUser.uid}`);
+      await uploadBytes(imageRef, imgFile);
+      const url = await getDownloadURL(imageRef);
       updateProfile(auth.currentUser, {
         displayName: user.displayName,
-        photoURL: user.photoURL
-      });
-      onAuthStateChanged(auth, user => {
-        const { displayName, photoURL } = user;
-        dispatch(updateUser({ displayName, photoURL }));
+        photoURL: url
       });
     } catch (error) {
-      printError(error);
+      setErrorMsg(error.code);
     }
   };
 
   const signUp = async event => {
     event.preventDefault();
-    if (user.password !== user.passwordConfirm) return setErrMsg("비밀번호가 일치하지 않습니다.");
-    if (user.password !== user.passwordConfirm) return setErrMsg("비밀번호가 일치하지 않습니다.");
+    if (user.password !== user.passwordConfirm) return setErrorMsg("비밀번호가 일치하지 않습니다.");
 
     try {
       await createUserWithEmailAndPassword(auth, user.email, user.password);
-      update();
-      closeModal();
+      update(event);
     } catch (error) {
-      printError(error);
+      setErrorMsg(error.code);
     }
+    navigator(0);
+    closeModal();
   };
 
-  const inputCaption = (type, name, required) => ({
+  const inputCaption = (type, name) => ({
     type,
     name,
     id: name,
     value: user[name],
-    onChange,
-    required
+    onChange
   });
 
   const requiredPoint = <span style={{ color: "red" }}>*</span>;
@@ -87,17 +67,23 @@ const SignUpModal = ({ SetIsOpen }) => {
     <St.Outer>
       <St.Inner>
         <St.Form onSubmit={signUp}>
-          <St.Label htmlFor="photoUrl">프로필 이미지</St.Label>
-          <St.Input {...inputCaption("file", "photoUrl")}></St.Input>
+          <St.FileLabel htmlFor="photoUrl">프로필 이미지 입력</St.FileLabel>
+          <St.Input
+            type="file"
+            id="photoUrl"
+            accept="image/*"
+            onChange={onChangeAddFile}
+            style={{ display: "none" }}
+          ></St.Input>
           <St.Label htmlFor="email">이메일 {requiredPoint}</St.Label>
-          <St.Input {...inputCaption("email", "email", "required")}></St.Input>
+          <St.Input {...inputCaption("email", "email")}></St.Input>
           <St.Label htmlFor="password">비밀번호 {requiredPoint}</St.Label>
-          <St.Input {...inputCaption("password", "password", "required")}></St.Input>
+          <St.Input {...inputCaption("password", "password")}></St.Input>
           <St.Label htmlFor="passwordConfirm">비밀번호 확인 {requiredPoint}</St.Label>
-          <St.Input {...inputCaption("password", "passwordConfirm", "required")}></St.Input>
-          <St.Label htmlFor="displayName">닉네임 {requiredPoint}</St.Label>
-          <St.Input {...inputCaption("text", "displayName", "required")}></St.Input>
-          {errMsg && <p>{errMsg}</p>}
+          <St.Input {...inputCaption("password", "passwordConfirm")}></St.Input>
+          <St.Label htmlFor="displayName">닉네임 </St.Label>
+          <St.Input {...inputCaption("text", "displayName")}></St.Input>
+          {errorMsg && <St.ErrorMsg>{errorMsg}</St.ErrorMsg>}
           <St.Flex>
             <Button position={"modal"}>회원가입</Button>
             <Button position={"modal"} type={"button"} onClick={closeModal}>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 export const Outer = styled.div`
@@ -12,25 +13,21 @@ export const Outer = styled.div`
   width: 100%;
   height: 100%;
 
-  /* 포탈 사용시 제거 */
   z-index: 5;
 
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
 export const Inner = styled.div`
-  position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
   padding: 70px;
 
-  /* 포탈 사용시 제거 */
   z-index: 6;
 
-  background-color: var(--color-main2);
+  background-color: #a4be7b;
   border-radius: 70px;
 `;
 
@@ -39,8 +36,6 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-self: center;
-
-  margin: 50px;
 `;
 
 export const Label = styled.label`
@@ -50,25 +45,66 @@ export const Label = styled.label`
 
   margin-top: 20px;
 
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
+export const FileLabel = styled.label`
+  margin: 10px auto;
+  padding: 20px;
+
+  background-color: #e5d9b6;
+  border-radius: 30px;
+
+  font-size: 2rem;
+  font-weight: 700;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const Input = styled.input`
   width: 600px;
   height: 30px;
-
-  align-self: center;
+  min-height: ${props => props.height}px;
 
   margin: 10px;
   padding: 10px;
 
+  border: none;
   border-radius: 45px;
-  background-color: var(--color-gray1);
+  background-color: rgb(200, 200, 200);
 
-  font-size: 20px;
+  font-size: 2rem;
   letter-spacing: 0.5px;
+
+  resize: none;
   &:focus {
-    background-color: var(--color-gray0);
+    outline: none;
+    background-color: rgb(230, 230, 230);
+  }
+`;
+
+export const ErrorMsg = styled.p`
+  align-self: center;
+
+  margin: 10px;
+
+  font-size: 1.6rem;
+  color: red;
+`;
+
+export const FindPwLink = styled(Link)`
+  align-self: center;
+  text-align: center;
+
+  margin: 10px;
+
+  font-size: 1.6rem;
+
+  &:hover {
+    color: blue;
   }
 `;
 

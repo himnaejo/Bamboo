@@ -2,7 +2,7 @@ import * as St from "./Header.style";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "modules/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import bamboo_logo from "assets/bamboo_logo.png";
 import basic from "assets/basic.jpg";
@@ -38,37 +38,36 @@ const Header = () => {
   return (
     <St.Header>
       <h1 style={{ display: "none" }}>&lt;&gt;Bamboo&lt;&#47;&gt;</h1>
-
-      <St.HomeLink to="/" style={{ gridColumn: "2/3" }}>
+      <Link to={"/"}>
         <St.Logo src={bamboo_logo} alt="Logo" />
-      </St.HomeLink>
+      </Link>
+      <St.ButtonBox>
+        {uid === null ? (
+          <Button position={"header"} onClick={signInOpenModal}>
+            로그인
+          </Button>
+        ) : (
+          <Button position={"header"} onClick={logOut}>
+            로그아웃
+          </Button>
+        )}
+        {signInOpen && <SignInModal SetIsOpen={SetSignInOpen} />}
 
-      {uid === null ? (
-        <Button position={"header"} column={"9/10"} onClick={signInOpenModal}>
-          로그인
-        </Button>
-      ) : (
-        <Button position={"header"} column={"9/10"} onClick={logOut}>
-          로그아웃
-        </Button>
-      )}
-
-      {uid === null ? (
-        <Button position={"header"} column={"10/11"} onClick={signUpOpenModal}>
-          회원가입
-        </Button>
-      ) : profileImg === null ? (
-        <St.ProfileLink to={`profile/${uid}`}>
-          <St.ProfileImg src={basic} alt="프로필이미지" />
-        </St.ProfileLink>
-      ) : (
-        <St.ProfileLink to={`profile/${uid}`}>
-          <St.ProfileImg src={profileImg} alt="프로필이미지" />
-        </St.ProfileLink>
-      )}
-
-      {signInOpen && <SignInModal SetIsOpen={SetSignInOpen} />}
-      {signUpOpen && <SignUpModal SetIsOpen={setSignUpOpen} />}
+        {uid === null ? (
+          <Button position={"header"} onClick={signUpOpenModal}>
+            회원가입
+          </Button>
+        ) : profileImg === null ? (
+          <Link to={`profile/${uid}`}>
+            <St.ProfileImg src={basic} alt="프로필이미지" />
+          </Link>
+        ) : (
+          <Link to={`profile/${uid}`}>
+            <St.ProfileImg src={profileImg} alt="프로필이미지" />
+          </Link>
+        )}
+        {signUpOpen && <SignUpModal SetIsOpen={setSignUpOpen} />}
+      </St.ButtonBox>
     </St.Header>
   );
 };

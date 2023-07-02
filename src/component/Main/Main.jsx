@@ -1,7 +1,8 @@
 import * as St from "./Main.style";
-import { useEffect, useState } from "react";
-import { db } from "modules/firebase";
+import { useState } from "react";
+import { useEffect } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "modules/firebase";
 import { Button } from "component/Button/Button.style";
 import PostModal from "component/Modal/PostModal";
 import Post from "component/Post/Post";
@@ -17,9 +18,7 @@ const Main = () => {
 
       const q = query(collection(db, "feeds"));
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(doc => {
-        initialValue.push({ ...doc.data(), id: doc.id });
-      });
+      querySnapshot.forEach(doc => initialValue.push({ ...doc.data(), id: doc.id }));
       setBamboos(initialValue);
     };
     fetchData();
