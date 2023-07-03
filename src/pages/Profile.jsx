@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import basic from "assets/basic.jpg";
-import edit from "assets/basic.jpg";
+import edit from "assets/edit.png";
 
 const Profile = () => {
   const { photoURL, displayName, email } = useSelector(state => state.userInfo);
@@ -41,7 +41,6 @@ const Profile = () => {
     <ProfileLayout>
       <ProfileBox>
         {photoURL === null ? (
-          // 스타일 컴포넌트 이름 수정
           <ProfileImg src={basic} alt="기본이미지" />
         ) : (
           <ProfileImg src={photoURL} alt="프로필이미지" />
